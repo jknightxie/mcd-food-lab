@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>麦门食验室 · 今天在练</title>
+<style>
+:root {
+  --ink: #1a1a1a;
+  --yellow: #ffc72c;
+  --red: #da291c;
+  --cream: #f4eee1;
+  --paper: #ffffff;
+  --soft: #faf6ea;
+  --tan: #6f6552;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Microsoft YaHei", sans-serif;
+  padding: 26px 14px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.card {
+  max-width: 400px; margin: 0 auto; background: var(--paper);
+  border: 3px solid var(--ink); border-radius: 20px; overflow: hidden;
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
+/* ── 品牌条 ── */
+.strip {
+  background: var(--red); color: #fff; padding: 12px 15px;
+  display: flex; align-items: center; gap: 9px;
+  border-bottom: 3px solid var(--ink);
+}
+.m-badge {
+  width: 26px; height: 26px; flex: none;
+  background: var(--yellow); color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic; font-weight: 900; font-size: 15px;
+}
+.strip-name { font-weight: 900; font-size: 15px; flex: 1; letter-spacing: .02em; }
+.strip-tag {
+  border: 2px solid #fff; border-radius: 999px; padding: 3px 11px;
+  font-size: 12px; font-weight: 800; white-space: nowrap;
+}
+
+/* ── 结论区 ── */
+.hero { background: var(--yellow); padding: 20px 16px 18px; }
+.eyebrow {
+  font-size: 11px; font-weight: 800; letter-spacing: .07em;
+  color: rgba(26,26,26,.72); margin-bottom: 8px;
+}
+.champ { font-size: 30px; font-weight: 900; line-height: 1.18; letter-spacing: -.01em; }
+.signature {
+  margin-top: 13px; display: inline-block;
+  background: var(--ink); color: var(--yellow);
+  border-radius: 10px; padding: 8px 13px;
+  font-size: 14px; font-weight: 700;
+}
+.signature b {
+  font-size: 22px; font-weight: 900;
+  font-variant-numeric: tabular-nums; margin: 0 2px;
+}
+.champ-sub {
+  margin-top: 11px; font-size: 12.5px; font-weight: 600;
+  color: rgba(26,26,26,.78); font-variant-numeric: tabular-nums;
+}
+
+/* ── 反差贴纸 ── */
+.sticker {
+  margin: 16px 16px 0; display: inline-block;
+  background: #fff; border: 2px solid var(--ink); border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--ink); transform: rotate(-1.2deg);
+  padding: 10px 13px; font-size: 14px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.sticker b { color: var(--red); }
+
+/* ── 条形图榜单 ── */
+.race { padding: 20px 16px 8px; }
+.race-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; margin-bottom: 12px;
+}
+.race-title { font-size: 14.5px; font-weight: 900; }
+.race-note {
+  font-size: 10.5px; color: var(--tan); font-weight: 600;
+  text-align: right; line-height: 1.4;
+}
+.row { padding: 9px 0; border-bottom: 1.5px dashed rgba(26,26,26,.18); }
+.row:last-child { border-bottom: none; }
+.row-top { display: flex; align-items: center; gap: 8px; }
+.rk {
+  width: 21px; height: 21px; flex: none;
+  border: 2px solid var(--ink); border-radius: 6px; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900;
+}
+.row.gold .rk { background: var(--red); color: #fff; }
+.nm { font-size: 14.5px; font-weight: 800; flex: 1; min-width: 0; }
+.sig {
+  flex: none; background: var(--ink); color: var(--yellow);
+  border-radius: 999px; padding: 2.5px 9px;
+  font-size: 11.5px; font-weight: 800; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.sig i { font-style: normal; font-size: 9.5px; opacity: .85; margin-left: 1px; }
+.track { display: flex; align-items: center; gap: 7px; margin: 7px 0 5px; }
+.fill {
+  height: 15px; flex: none; min-width: 8px;
+  border: 2px solid var(--ink); border-radius: 7px;
+  background: var(--yellow);
+}
+.row.gold .fill { background: var(--red); }
+.barv {
+  font-size: 13.5px; font-weight: 900;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.barv i { font-style: normal; font-size: 10px; font-weight: 700; color: var(--tan); margin-left: 2px; }
+.sub {
+  font-size: 11.5px; color: var(--tan); font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 数据存疑 ── */
+.sus {
+  margin: 12px 16px 0; border: 1.5px dashed var(--tan); border-radius: 10px;
+  padding: 9px 11px; font-size: 11px; color: var(--tan); line-height: 1.6;
+}
+.sus b { color: var(--ink); }
+.sus ul { margin: 5px 0 0 15px; }
+
+/* ── 覆盖率（剪裁线）── */
+.cut {
+  margin: 18px 16px 0; border-top: 2px dashed var(--ink);
+  text-align: center;
+}
+.cut span {
+  position: relative; top: -10px; background: var(--paper);
+  padding: 0 9px; font-size: 10.5px; font-weight: 800;
+  letter-spacing: .12em; color: var(--tan);
+}
+.cover { display: flex; gap: 13px; margin: 4px 16px 0; align-items: flex-start; }
+.cover-num {
+  flex: none; font-size: 36px; font-weight: 900; color: var(--red);
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.cover-num i {
+  display: block; font-style: normal; font-size: 9.5px; font-weight: 700;
+  letter-spacing: .08em; color: var(--tan); margin-top: 4px;
+}
+.cover-txt { font-size: 11.5px; color: var(--tan); line-height: 1.65; font-weight: 600; }
+.cover-txt b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ── 页脚（全站统一落款：参赛声明 + 数据来源 + 可点开源地址）── */
+.foot {
+  margin-top: 18px; border-top: 3px solid var(--ink); background: var(--soft);
+  padding: 11px 16px;
+}
+.foot-brand { font-size: 11.5px; font-weight: 900; }
+.foot .disclaimer {
+  font-size: 10px; font-weight: 600; color: var(--tan);
+  margin-top: 3px; line-height: 1.7;
+}
+.foot .disclaimer a {
+  color: var(--ink); font-weight: 700;
+  text-decoration: underline; text-underline-offset: 2px;
+  word-break: break-all;
+}
+
+/* ── 战力测试战报卡 ── */
+.qz { padding: 20px 16px 8px; }
+.qz-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; margin-bottom: 12px;
+}
+.qz-title { font-size: 14.5px; font-weight: 900; }
+.qz-note { font-size: 10.5px; color: var(--tan); font-weight: 600; }
+.qz-row { padding: 10px 0; border-bottom: 1.5px dashed rgba(26,26,26,.18); }
+.qz-row:last-child { border-bottom: none; }
+.qz-top { display: flex; align-items: baseline; gap: 8px; }
+.qz-no {
+  flex: none; font-size: 11px; font-weight: 900; color: var(--tan);
+  font-variant-numeric: tabular-nums;
+}
+.qz-q { font-size: 13.5px; font-weight: 800; flex: 1; min-width: 0; }
+/* ── 战绩水印图章 ──
+   对/错不是题旁的小图标，是两枚**盖在答案区正中的水印大印**：
+   朱砂色、双边框（外粗内细，outline 负偏移内描边）、宋体大字、
+   微旋、浓印 —— 用户实测「透明度很低，要有强烈对比，突出效果」，
+   浓度从 .38 提到 .62：盖得住，又还没糊到答案的字读不出来。 */
+.qz-body { position: relative; }
+.qz-seal {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) rotate(-13deg);
+  width: 92px; height: 92px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "SimSun", "STSong", "SimSun-ExtB", Georgia, serif;
+  font-size: 50px; font-weight: 900; line-height: 1;
+  color: var(--red);
+  border: 4px solid currentColor; border-radius: 11px;
+  outline: 2px solid currentColor; outline-offset: -8px;
+  opacity: .62;
+  pointer-events: none; user-select: none;
+}
+.qz-seal.qz-bad {
+  border-style: dashed; outline-style: dashed;
+  transform: translate(-50%, -50%) rotate(11deg);
+}
+.qz-ans { font-size: 11.5px; color: var(--tan); font-weight: 600; margin-top: 4px; }
+.qz-ans b { color: var(--ink); }
+.qz-ans .miss { color: var(--red); text-decoration: line-through; }
+.qz-reveal {
+  margin-top: 6px; font-size: 12px; font-weight: 700; line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+.t-midnight .qz-row { border-bottom-color: rgba(242,239,232,.15); }
+.t-midnight .qz-ans { color: #9a9384; }
+.t-midnight .qz-ans b { color: #f2efe8; }
+.t-midnight .qz-ans .miss { color: #ff7b72; }
+.t-midnight .qz-no, .t-midnight .qz-note { color: #9a9384; }
+/* 深夜底吃光深红，印泥提亮并加重 —— 不然盖上看不见 */
+.t-midnight .qz-seal { color: #ff6a52; opacity: .68; }
+.t-retro .qz-row { border-bottom-color: rgba(58,36,21,.2); }
+.t-retro .qz-ans { color: #8a6a45; }
+.t-retro .qz-ans b { color: #3a2415; }
+.t-retro .qz-no, .t-retro .qz-note { color: #8a6a45; }
+.t-retro .qz-seal { color: #a33327; opacity: .6; }
+.t-receipt .qz-row { border-bottom: 1px dashed #c9c4b6; }
+/* 小票的印泥是墨黑，方角 —— 像票据上洇开的印 */
+.t-receipt .qz-seal { color: #1a1a1a; border-radius: 3px; opacity: .5; }
+
+/* ── 点餐单 ── */
+.od { padding: 20px 16px 8px; }
+.od-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; margin-bottom: 12px;
+}
+.od-title { font-size: 14.5px; font-weight: 900; }
+.od-note { font-size: 10.5px; color: var(--tan); font-weight: 600; }
+.od-row { padding: 9px 0; border-bottom: 1.5px dashed rgba(26,26,26,.18); }
+.od-row:last-child { border-bottom: none; }
+.od-top { display: flex; align-items: baseline; gap: 8px; }
+.od-qty {
+  flex: none; min-width: 26px; font-size: 12px; font-weight: 900;
+  color: var(--tan); font-variant-numeric: tabular-nums;
+}
+.od-name { font-size: 14px; font-weight: 800; flex: 1; min-width: 0; }
+.od-price {
+  flex: none; font-size: 14px; font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.od-sub {
+  margin-top: 3px; font-size: 11.5px; color: var(--tan); font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.od-src {
+  margin: 12px 16px 0; border: 1.5px dashed var(--tan); border-radius: 10px;
+  padding: 9px 11px; font-size: 11px; color: var(--tan); line-height: 1.6;
+}
+.od-src b { color: var(--ink); }
+.t-midnight .od-row { border-bottom-color: rgba(242,239,232,.15); }
+.t-midnight .od-name { color: #f2efe8; }
+.t-midnight .od-qty, .t-midnight .od-sub, .t-midnight .od-note { color: #9a9384; }
+.t-midnight .od-src { border-color: #55524a; color: #9a9384; }
+.t-midnight .od-src b { color: #f2efe8; }
+.t-retro .od-row { border-bottom-color: rgba(58,36,21,.2); }
+.t-retro .od-name { color: #3a2415; }
+.t-retro .od-qty, .t-retro .od-sub, .t-retro .od-note { color: #8a6a45; }
+.t-retro .od-src { border-color: #c9b795; color: #8a6a45; }
+.t-retro .od-src b { color: #3a2415; }
+.t-receipt .od-row { border-bottom: 1px dashed #c9c4b6; }
+
+/* ══ 主题：深夜黑金 ══════════════════════════════════════════════ */
+body.t-midnight { background: #101012; color: #f2efe8; }
+.t-midnight {
+  /* 根上必须先立浅色文字：题干/揭示/价格这些没单独覆盖 color 的元素
+     全靠继承 —— 少了这行就是黑底黑字（真实事故，回归测试锁死）。 */
+  color: #f2efe8;
+  background: #1b1b1e; border-color: var(--yellow);
+  box-shadow: 9px 9px 0 #000;
+}
+.t-midnight .strip { background: var(--yellow); color: #1a1a1a; border-bottom-color: #1a1a1a; }
+.t-midnight .m-badge { background: #1a1a1a; color: var(--yellow); border-color: #1a1a1a; }
+.t-midnight .strip-name { color: #1a1a1a; }
+.t-midnight .strip-tag { border-color: #1a1a1a; color: #1a1a1a; }
+.t-midnight .hero { background: #1b1b1e; }
+.t-midnight .eyebrow { color: #9a9384; }
+.t-midnight .champ { color: #ffffff; }
+.t-midnight .signature { background: var(--yellow); color: #1a1a1a; }
+.t-midnight .champ-sub { color: #b9b2a4; }
+.t-midnight .sticker {
+  background: #1b1b1e; color: #ffffff; border-color: var(--yellow);
+  box-shadow: 4px 4px 0 var(--yellow);
+}
+.t-midnight .sticker b { color: var(--yellow); }
+.t-midnight .race-title, .t-midnight .nm, .t-midnight .barv { color: #f2efe8; }
+.t-midnight .race-note, .t-midnight .sub, .t-midnight .barv i { color: #9a9384; }
+.t-midnight .rk { background: #1b1b1e; color: #f2efe8; border-color: #f2efe8; }
+.t-midnight .row.gold .rk { background: #ff5a3c; color: #1a1a1a; border-color: #ff5a3c; }
+.t-midnight .sig { background: var(--yellow); color: #1a1a1a; }
+.t-midnight .sig i { color: #1a1a1a; opacity: .7; }
+.t-midnight .fill { background: var(--yellow); border-color: #f2efe8; }
+.t-midnight .row.gold .fill { background: #ff5a3c; border-color: #f2efe8; }
+.t-midnight .row { border-bottom-color: rgba(242,239,232,.15); }
+.t-midnight .sus { border-color: #55524a; color: #9a9384; }
+.t-midnight .sus b { color: #f2efe8; }
+.t-midnight .cut { border-top-color: #55524a; }
+.t-midnight .cut span { background: #1b1b1e; color: #9a9384; }
+.t-midnight .cover-num { color: var(--yellow); }
+.t-midnight .cover-num i { color: #9a9384; }
+.t-midnight .cover-txt { color: #b9b2a4; }
+.t-midnight .cover-txt b { color: #f2efe8; }
+.t-midnight .foot { background: #151517; border-top-color: var(--yellow); }
+.t-midnight .foot-brand { color: #f2efe8; }
+.t-midnight .foot .disclaimer { color: #9a9384; }
+.t-midnight .foot a { color: var(--yellow); }
+
+/* ══ 主题：营养小票 ══════════════════════════════════════════════ */
+body.t-receipt { background: #dcd8cc; }
+.t-receipt, .t-receipt * { font-family: "Consolas", "Courier New", "Microsoft YaHei", monospace; }
+.t-receipt {
+  background: #fdfcf7; border: 2px dashed #8a8578;
+  box-shadow: 6px 6px 0 #b9b4a6; border-radius: 6px;
+}
+.t-receipt .strip {
+  background: #fdfcf7; color: #1a1a1a;
+  border-bottom: 3px double #1a1a1a; justify-content: center;
+}
+.t-receipt .m-badge { background: #1a1a1a; color: #fdfcf7; border-color: #1a1a1a; }
+.t-receipt .strip-tag { border: 1.5px dashed #1a1a1a; color: #1a1a1a; }
+.t-receipt .hero { background: #fdfcf7; text-align: center; }
+.t-receipt .champ { font-size: 24px; color: #1a1a1a; }
+.t-receipt .signature { background: #1a1a1a; color: #fdfcf7; border-radius: 4px; }
+.t-receipt .champ-sub { color: #6f6552; }
+.t-receipt .sticker {
+  display: block; text-align: center; transform: none; box-shadow: none;
+  background: #fdfcf7; border: 1.5px dashed #1a1a1a; margin: 16px 14px 0;
+}
+.t-receipt .sticker b { color: #1a1a1a; text-decoration: underline; }
+.t-receipt .race-title::before { content: "* "; }
+.t-receipt .fill {
+  height: 13px; border-radius: 3px; border-width: 1.5px;
+  background: repeating-linear-gradient(-45deg, #1a1a1a 0 2px, transparent 2px 5px);
+}
+.t-receipt .row.gold .fill { background: #1a1a1a; }
+.t-receipt .row.gold .rk { background: #1a1a1a; color: #fdfcf7; }
+.t-receipt .row.gold .nm::before { content: ">> "; }
+.t-receipt .row { border-bottom: 1px dashed #c9c4b6; }
+.t-receipt .sus { border-style: solid; border-color: #c9c4b6; }
+.t-receipt .cut { border-top: 2px dashed #8a8578; }
+.t-receipt .cut span { background: #fdfcf7; }
+.t-receipt .cover-num { color: #1a1a1a; }
+.t-receipt .foot { background: #fdfcf7; border-top: 2px dashed #8a8578; }
+.t-receipt .foot a { color: #1a1a1a; }
+
+/* ══ 主题：复古海报 ══════════════════════════════════════════════ */
+body.t-retro { background: #e9dcc3; }
+.t-retro {
+  background: #f7efdd; border-color: #7c2a1e;
+  box-shadow: 8px 8px 0 #c9b795; border-radius: 14px;
+}
+.t-retro .champ, .t-retro .race-title, .t-retro .strip-name { font-family: Georgia, "Times New Roman", "SimSun", serif; }
+.t-retro .strip { background: #7c2a1e; color: #f3e2c0; border-bottom-color: #7c2a1e; }
+.t-retro .m-badge { background: #f3e2c0; color: #7c2a1e; border-color: #7c2a1e; }
+.t-retro .strip-tag { border-color: #f3e2c0; color: #f3e2c0; }
+.t-retro .hero { background: #f0d48a; }
+.t-retro .eyebrow { color: #7a5b33; }
+.t-retro .champ { color: #3a2415; }
+.t-retro .signature { background: #7c2a1e; color: #f3e2c0; }
+.t-retro .champ-sub { color: #6b4a2a; }
+.t-retro .sticker {
+  background: #f7efdd; border-color: #7c2a1e;
+  box-shadow: 4px 4px 0 #c9b795; transform: rotate(-1.5deg);
+}
+.t-retro .sticker b { color: #a33327; }
+.t-retro .nm, .t-retro .race-title, .t-retro .barv { color: #3a2415; }
+.t-retro .race-note, .t-retro .sub, .t-retro .barv i { color: #8a6a45; }
+.t-retro .rk { border-color: #3a2415; color: #3a2415; }
+.t-retro .row.gold .rk { background: #a33327; color: #f7efdd; border-color: #a33327; }
+.t-retro .fill { background: #c8892f; border-color: #3a2415; }
+.t-retro .row.gold .fill { background: #a33327; }
+.t-retro .sig { background: #7c2a1e; color: #f3e2c0; }
+.t-retro .sig i { color: #f3e2c0; opacity: .8; }
+.t-retro .row { border-bottom-color: rgba(58,36,21,.2); }
+.t-retro .sus { border-color: #c9b795; color: #8a6a45; }
+.t-retro .sus b { color: #3a2415; }
+.t-retro .cut { border-top-color: #7c2a1e; }
+.t-retro .cut span { background: #f7efdd; color: #8a6a45; }
+.t-retro .cover-num { color: #a33327; }
+.t-retro .cover-num i { color: #8a6a45; }
+.t-retro .cover-txt { color: #6b4a2a; }
+.t-retro .cover-txt b { color: #3a2415; }
+.t-retro .foot { background: #f0e6cd; border-top-color: #7c2a1e; }
+.t-retro .foot-brand { color: #3a2415; }
+.t-retro .foot .disclaimer { color: #8a6a45; }
+.t-retro .foot a { color: #7c2a1e; }
+
+/* ── 风格切换器（只在 switchable 卡片里出现）── */
+.style-switch {
+  position: sticky; top: 10px; z-index: 99;
+  display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.style-switch button {
+  font-family: inherit; cursor: pointer;
+  border: 2px solid #1a1a1a; background: #fff; color: #1a1a1a;
+  border-radius: 999px; padding: 5px 12px;
+  font-size: 12px; font-weight: 800;
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+.style-switch button.on { background: #1a1a1a; color: #ffc72c; }
+</style>
+</head>
+<body class="t-classic">
+<div class="style-switch"><button data-style="classic" class="on">经典黄黑</button><button data-style="midnight" class="">深夜黑金</button><button data-style="receipt" class="">营养小票</button><button data-style="retro" class="">复古海报</button></div><div class="card t-classic">
+  <div class="strip">
+    <div class="m-badge">M</div>
+    <div class="strip-name">麦门食验室</div>
+    <div class="strip-tag">今天在练</div>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">「今天在练」最优解：蛋白质效率最高 · 实时菜单 · 北京建外SOHO(A座)</div>
+    <div class="champ">那么大鸡排（椒盐风味）</div>
+    <div class="signature">每 1 元 = <b>1.71</b> 克蛋白质</div>
+    <div class="champ-sub">¥14.0 · 蛋白 24g · 热量 385kcal · 钙 13mg</div>
+  </div>
+
+  <div class="sticker">比 双层吉士汉堡 便宜 <b>¥9.0</b>，蛋白密度高 <b>46%</b></div>
+
+  <div class="race">
+    <div class="race-head">
+      <span class="race-title">效率榜 TOP 5</span>
+      <span class="race-note">按蛋白质 g/元 排序<br>条越长越好</span>
+    </div>
+    <div class="row gold"><div class="row-top"><span class="rk">1</span><span class="nm">那么大鸡排（椒盐风味）</span><span class="sig">1.71<i>g蛋白/元</i></span></div><div class="track"><div class="fill" style="width:75%"></div><span class="barv">1.71<i>g/元</i></span></div><div class="sub">¥14.0 · 蛋白 24g · 钙 13mg · 钠 996mg · 脂肪 21g</div></div><div class="row"><div class="row-top"><span class="rk">2</span><span class="nm">双层吉士汉堡</span><span class="sig">1.17<i>g蛋白/元</i></span></div><div class="track"><div class="fill" style="width:55%"></div><span class="barv">1.17<i>g/元</i></span></div><div class="sub">¥23.0 · 蛋白 27g · 钙 232mg · 钠 1017mg · 脂肪 22g</div></div><div class="row"><div class="row-top"><span class="rk">3</span><span class="nm">双层深海鳕鱼堡</span><span class="sig">1.17<i>g蛋白/元</i></span></div><div class="track"><div class="fill" style="width:54%"></div><span class="barv">1.17<i>g/元</i></span></div><div class="sub">¥24.0 · 蛋白 28g · 钙 147mg · 钠 917mg · 脂肪 21g</div></div><div class="row"><div class="row-top"><span class="rk">4</span><span class="nm">麦辣鸡腿汉堡</span><span class="sig">1.07<i>g蛋白/元</i></span></div><div class="track"><div class="fill" style="width:50%"></div><span class="barv">1.07<i>g/元</i></span></div><div class="sub">¥22.5 · 蛋白 24g · 钙 154mg · 钠 1208mg · 脂肪 24g</div></div><div class="row"><div class="row-top"><span class="rk">5</span><span class="nm">薄皮焦香V翅</span><span class="sig">1.06<i>g蛋白/元</i></span></div><div class="track"><div class="fill" style="width:50%"></div><span class="barv">1.06<i>g/元</i></span></div><div class="sub">¥16.0 · 蛋白 17g · 钙 15mg · 钠 594mg · 脂肪 11g</div></div>
+  </div>
+  
+  
+  <div class="cut"><span>数据边界</span></div>
+  <div class="cover">
+    <div class="cover-num">20%<i>有营养数据</i></div>
+    <div class="cover-txt">
+      本店 <b>100</b> 款在售，有营养数据的 <b>20</b> 款。
+      没查到的（麦辣鸡腿汉堡三件套、三文鱼双虾至尊月堡、阳光橙麦炫酷、马苏里拉拉丝芝士条 等 80 款）<b>不参与推荐</b> —— 不拿估算值凑数。
+    </div>
+  </div>
+
+  <div class="foot"><div class="foot-brand">麦门食验室</div><div class="disclaimer">本项目为参赛作品，非麦当劳官方产品。数据以麦当劳官方渠道实时结果为准。<br>开源地址：<a href="https://github.com/jknightxie/mcd-food-lab">https://github.com/jknightxie/mcd-food-lab</a></div></div>
+</div>
+
+<script>
+(function () {
+  var KEYS = ["classic", "midnight", "receipt", "retro"];
+  var btns = document.querySelectorAll(".style-switch button");
+  var card = document.querySelector(".card");
+  function apply(s) {
+    KEYS.forEach(function (k) {
+      document.body.classList.remove("t-" + k);
+      if (card) card.classList.remove("t-" + k);
+    });
+    document.body.classList.add("t-" + s);
+    if (card) card.classList.add("t-" + s);
+    btns.forEach(function (b) {
+      b.classList.toggle("on", b.getAttribute("data-style") === s);
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-style")); });
+  });
+  // 暴露给宿主页：演示页要按本次随机主题给每张卡定初始外观
+  // （宿主只换主题、不复制主题逻辑 —— 否则两份实现迟早会漂）
+  window.__cardSetStyle = apply;
+})();
+</script>
+</body>
+</html>

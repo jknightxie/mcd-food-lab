@@ -1,0 +1,31 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# ── 编辑器 / 系统 ──
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# ── 密钥 ──
+# mcp-config.example.json 里是占位符；真实 Token 只存在本机 ~/.workbuddy/mcp.json
+.env
+
+# ── 本地临时产物 ──
+# scripts/run.py --card 的输出名由调用方定，这里只挡最常见的几个
+_scratch/
+_probe*.json
+out.html
+preview-*.html
+mcd-food-lab-*.html
+*.log
+
+# ── 注意：以下**是要提交的**构建产物，别 ignore ──
+#   demo/index.html        演示页（README 首屏指向它，clone 后可直接打开）
+#   assets/demo-*.html     三张示例卡（README 引用）
+#   assets/snapshot.json   冻结的真实响应（演示页离线构建的数据源）

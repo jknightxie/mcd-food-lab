@@ -1,0 +1,11 @@
+# 行尾：入库时把文本文件的 CRLF 归一为 LF（GitHub 上是 LF，评审在 Linux/macOS clone 一致）；
+# 工作区保持原样，不做强制转换 —— 避免"下次 checkout 时全文件都变"的无谓噪音
+* text=auto
+
+# 二进制
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.woff binary
+*.woff2 binary
