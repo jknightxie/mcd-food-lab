@@ -747,3 +747,44 @@ height 兜底、三条补量保险齐全）。README 测试徽章同步、深链
 **尚未 push** —— 需要先建远程仓库并使用凭据。
 
 **测试 254 项全过**（本轮 +1：示例卡与卡片源同步的回归断言）。
+
+---
+
+## 第三十八阶段：在线演示改由 GitHub Pages 托管（2026-10-15）
+
+**触发**：用户问「在线演示放 workbuddy 链接合适嘛？还是直接更新成 github 的链接」。
+
+**先查证再下结论**（curl 逐层扒分享页）：
+
+| 观察 | 含义 |
+|---|---|
+| 页面 HTML 仅 4.7KB，演示本体 264KB | 外层是 JS 壳，正文客户端再拉 |
+| `X-Robots-Tag: noindex, nofollow` + `<meta name="robots">` | 搜索引擎完全不收录 |
+| 匿名访问 `/space/api/page/share/userinfo` → `{"code":11607,"msg":"not login"}` | 陌生人走「未登录」分支 |
+| 真实文件在 `workbuddy-space-static.codebuddy.work`（腾讯 COS），带 `/page/page_comm/inject.js` | 归平台控制，不是自有域名 |
+| 但底层 HTML 直链公开 200 | **内容不加密**，问题在「入口套壳 + 搜不到」 |
+
+**决策**：About 主页换 Pages，WorkBuddy 资料库版降为 README 备选入口 ——
+保留「全程用 WorkBuddy 开发」这条参赛叙事，同时让评委那一次点击落在
+免登录、可索引、自有域名的地址上。
+
+**实现**：branch 发布只认仓库根目录或 `/docs`，而演示在 `demo/`。
+不挪 `build_demo.py` 的输出路径（否则 README 里所有 `demo/` 链接和
+单一真值都要动），改用 **Actions 产物方式**发布：
+- `.github/workflows/pages.yml` —— `upload-pages-artifact` 指向 `./demo` + `deploy-pages`
+- `_ops/enable_pages.py` —— `POST /repos/.../pages {"build_type":"workflow"}`（幂等，带 `--status/--rebuild`）
+- `_ops/pages_watch.py` —— 轮询 `actions/runs` 直到 `completed`
+
+**验证**（四层）：
+1. run #1 `success` → `https://jknightxie.github.io/mcd-food-lab/` 返回 200
+2. 线上 vs 本地：**归一化行尾后 md5 完全一致**（`947db225…`，差 294 字节纯 CRLF→LF，
+   即 `.gitattributes` 的 `text=auto` 生效）
+3. CDP 真 Chrome 渲染：首屏战报卡完整；点「六个场景」→ `sceneCard` 1123px，
+   请客场景推荐卡 / TOP5 条形图 / 20% 覆盖率披露 / 落款全在
+4. 仓库元信息：`homepage` → Pages 地址，`description` 25 字不变，`topics` 未动
+
+**踩坑（探针本身）**：`cdp_check.py --local` 首次探针三个 iframe 全报
+`offsetH 0 / bodyH 0 / 钩子 undefined`，但截图证明卡片渲染完全正常。
+对本地 `file://` 跑同一探针得到**相同结果** → 不是 Pages 的问题：
+探针读的是内联样式高度（初始未设置），点过标签后 JS 才写入显式高度
+（点击后立刻读到 `1123px`）。**结论：以截图为准，别信这个高度字段。**
