@@ -4,7 +4,7 @@
 
 [![MCP](https://img.shields.io/badge/MCP-mcp.mcd.cn-DA291C?style=flat-square)](https://mcp.mcd.cn)
 [![Skill](https://img.shields.io/badge/WorkBuddy-Skill-FFC72C?style=flat-square)](./SKILL.md)
-[![Live Demo](https://img.shields.io/badge/live--demo-%E5%85%8D%E5%AE%89%E8%A3%85%20%C2%B7%20%E5%85%8D%20Token-blueviolet.svg)](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)
+[![Live Demo](https://img.shields.io/badge/live--demo-%E5%85%8D%E5%AE%89%E8%A3%85%20%C2%B7%20%E5%85%8D%20Token-blueviolet.svg)](https://jknightxie.github.io/mcd-food-lab/)
 [![Tests](https://img.shields.io/badge/tests-254%20passing-3FB950?style=flat-square)](#如果想自己跑可选)
 [![Token](https://img.shields.io/badge/Token-%E6%B5%8B%E8%AF%95%E4%B8%8D%E9%9C%80%E8%A6%81-blue?style=flat-square)](#如果想自己跑可选)
 [![Python](https://img.shields.io/badge/Python-3.10%2B%20zero--dep-3776AB?style=flat-square&logo=python&logoColor=white)](#如果想自己跑可选)
@@ -24,12 +24,14 @@
 
 <div align="center">
 
-### 🍟 [打开在线演示 →](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)
+### 🍟 [打开在线演示 →](https://jknightxie.github.io/mcd-food-lab/)
 
 **免安装、免 Token**：亲手答反转题、切换六个场景看推荐卡怎么变、翻看真实点餐单。
 **每次打开随机换一份**——四套题库、六个默认场景、三单真实计价、四种主题随机组合，刷新就换。
 
 <sub>2026-10-14 用真实 Token 在门店抓的快照（数据冻结在 <code>assets/snapshot.json</code>），<b>不是实时查询</b> —— 页面由本仓库同一套 scripts 渲染</sub>
+
+<sub>备选入口：<a href="https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S">WorkBuddy 资料库版</a>（同一份页面，托管在本项目的开发工具上）</sub>
 
 </div>
 
@@ -62,7 +64,7 @@ Q3. 《关于 2026 年度每元补钙效率评优的通知》：经四城七店�
 ```
 
 答完出段位战报卡（麦门路人 → 麦门战神）——就是本页最上面那张，同一场会话。
-🎮 **[亲手答一遍，看你的战报卡 →](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)**（演示页默认就在这一页）
+🎮 **[亲手答一遍，看你的战报卡 →](https://jknightxie.github.io/mcd-food-lab/)**（演示页默认就在这一页）
 
 > 题目、选项、揭示全部由当前门店实时数据生成，50 个梗壳随机套用（每场三种笑点人格）；
 > 换一家店，题面可能就不一样。答案不写在 README 里——**要自己错一遍才记得住**。
@@ -86,7 +88,7 @@ Q3. 《关于 2026 年度每元补钙效率评优的通知》：经四城七店�
 薄皮焦香V翅                    16.0元       192         17        15           1.06       594        11
 ```
 
-每一档输出都配一张可分享卡片（顶部按钮切四套风格）—— 🍔 **[切换六个场景看卡片怎么变 →](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)**（点「② 六个场景」）
+每一档输出都配一张可分享卡片（顶部按钮切四套风格）—— 🍔 **[切换六个场景看卡片怎么变 →](https://jknightxie.github.io/mcd-food-lab/)**（点「② 六个场景」）
 
 
 ### ③ 你说「就它了，鸡排来一份加两盒牛奶」→ 定餐
@@ -101,7 +103,7 @@ Q3. 《关于 2026 年度每元补钙效率评优的通知》：经四城七店�
 [只读] 未真实下单。确认无误要下单时，对话里说「确认下单」。
 ```
 
-点餐单卡（营养小票风）—— 🧾 **[看点餐单卡 →](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)**（点「③ 点餐单」）
+点餐单卡（营养小票风）—— 🧾 **[看点餐单卡 →](https://jknightxie.github.io/mcd-food-lab/)**（点「③ 点餐单」）
 
 
 > 确认后才真实下单（回传官方支付链接、订单号、取消方式）；含糊表述永远只到点餐单；
@@ -286,10 +288,14 @@ python scripts/run.py --cancel 订单号
 
 1. **文件直传**——微信/邮件发 `.html`，对方浏览器打开即看，切换器照常工作
 2. **手机截图**——400px 手机宽度设计，截图即完整卡片
-3. **在线链接**——传进 WorkBuddy 资料库发布即得公开链接（[在线演示](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)就是这么发的）
+3. **在线链接**——传进 WorkBuddy 资料库发布即得公开链接（[备选演示](https://workbuddy.link/p/7G5alhI6g5LdIILSXl0c8S)就是这么发的）
 
 示例卡片就在 [`assets/`](assets/)（`demo-quiz.html` / `demo-recommend.html` / `demo-order.html`，
 下载双击即可看，不需要任何环境）。
+
+演示页 [`demo/index.html`](demo/) 是**单个自包含 HTML（264KB，零外部依赖）**，
+所以直接由 GitHub Actions 把 `demo/` 目录发布成 Pages——
+没有构建步骤，没有 CDN，副本就是仓库里那份（见 [`.github/workflows/pages.yml`](.github/workflows/pages.yml)）。
 
 > 隐私边界：卡片里只有公开菜单与营养数据；**真实下单的支付链接是私人的，永不分享**。
 

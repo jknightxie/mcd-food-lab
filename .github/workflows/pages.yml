@@ -1,0 +1,44 @@
+name: Deploy demo to GitHub Pages
+
+# 只发布 demo/ 这一个目录（Actions 产物方式），
+# 好处是 build_demo.py 的输出路径不用动，README 里的 demo/ 链接也不受影响。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "demo/**"
+      - "tools/build_demo.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只留最后一次部署
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload demo/ as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./demo
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
