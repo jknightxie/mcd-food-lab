@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="麦门食验室：把麦当劳官方营养数据除以门店实时价格">
+  <title>麦门食验室 · 营养 ÷ 价格</title>
+  <desc>麦当劳 MCP 的每元营养效率助手。四城七店实测，官方营养库与在售餐品的可匹配比例约 18%~21%。</desc>
+
+  <rect width="1200" height="630" fill="#f4eee1"/>
+
+  <!-- 顶部品牌条 -->
+  <rect x="0" y="0" width="1200" height="96" fill="#ffc72c"/>
+  <line x1="0" y1="96" x2="1200" y2="96" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="56" y="62" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="30" font-weight="700" fill="#1a1a1a">麦门食验室</text>
+  <text x="1144" y="62" text-anchor="end" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="21" fill="#1a1a1a" opacity="0.75">麦当劳 MCP · WorkBuddy Skill</text>
+
+  <!-- 主标题。除号手绘：字体自带的 ÷ 在 126px 下两个点会糊成一坨 -->
+  <text x="56" y="264" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="126" font-weight="700" fill="#1a1a1a">营养</text>
+  <circle cx="390" cy="196" r="15" fill="#da291c"/>
+  <circle cx="390" cy="244" r="15" fill="#da291c"/>
+  <rect x="365" y="212" width="50" height="16" fill="#da291c"/>
+  <text x="470" y="264" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="126" font-weight="700" fill="#1a1a1a">价格</text>
+
+  <text x="56" y="330" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="30" font-weight="700" fill="#1a1a1a">把官方营养数据 ÷ 门店实时价格</text>
+  <text x="56" y="374" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="25" fill="#6f6552">回答一个比「热量多少」更实际的问题：这钱花得值不值</text>
+
+  <!-- 三个数字 -->
+  <rect x="56" y="424" width="220" height="76" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="74" y="468" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="32" font-weight="700" fill="#1a1a1a">100</text>
+  <text x="74" y="490" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" fill="#6f6552">款在售餐品（实测门店）</text>
+
+  <rect x="300" y="424" width="220" height="76" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="318" y="468" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="32" font-weight="700" fill="#da291c">18~21%</text>
+  <text x="318" y="490" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" fill="#6f6552">营养库可匹配比例</text>
+
+  <rect x="544" y="424" width="220" height="76" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="562" y="468" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="32" font-weight="700" fill="#1a1a1a">254</text>
+  <text x="562" y="490" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" fill="#6f6552">项测试 · 零 Token 可跑</text>
+
+  <!-- 图章 -->
+  <g transform="translate(978, 396) rotate(-12)">
+    <rect x="-96" y="-96" width="192" height="192" fill="#da291c" stroke="#1a1a1a" stroke-width="3"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="52" font-weight="700" fill="#ffffff">每元</text>
+    <text x="0" y="56" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="52" font-weight="700" fill="#ffffff">效率</text>
+  </g>
+
+  <!-- 底部地址条 -->
+  <rect x="0" y="546" width="1200" height="84" fill="#1a1a1a"/>
+  <text x="56" y="598" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#ffc72c">github.com/jknightxie/mcd-food-lab</text>
+  <text x="1144" y="596" text-anchor="end" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="19" fill="#ffc72c" opacity="0.85">在线演示 · 免安装 · 免 Token</text>
+</svg>

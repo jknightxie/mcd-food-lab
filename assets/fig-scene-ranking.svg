@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 620" width="1040" height="620" role="img" aria-label="一个问题，六套排序标准：六个场景各自的排序依据">
+  <title>一个问题，六套排序标准</title>
+  <desc>麦门食验室先问「今天这顿想干什么」，六个场景对应六套不同的排序依据。六个场景冠军各不相同。</desc>
+
+  <rect width="1040" height="620" fill="#f4eee1"/>
+  <!-- 硬阴影 + 卡片框，与卡片的粗野主义边框同源 -->
+  <rect x="26" y="26" width="988" height="568" fill="#1a1a1a"/>
+  <rect x="16" y="16" width="988" height="568" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+
+  <!-- 标题条 -->
+  <rect x="16" y="16" width="988" height="80" fill="#ffc72c" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="48" y="68" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="34" font-weight="700" fill="#1a1a1a">一个问题，六套排序标准</text>
+  <text x="972" y="66" text-anchor="end" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" fill="#6f6552">问完就停，不摆选项</text>
+
+  <!-- 场景一：解馋 -->
+  <g>
+    <rect x="40" y="120" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="60" y="150" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「随便吃点 / 想吃点好的」</text>
+    <text x="60" y="186" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">解馋</text>
+    <rect x="56" y="208" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="191" y="236" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">热量/元 ↓</text>
+  </g>
+
+  <!-- 场景二：管住嘴 -->
+  <g>
+    <rect x="359" y="120" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="379" y="150" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「今天想控制一下」</text>
+    <text x="379" y="186" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">管住嘴</text>
+    <rect x="375" y="208" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="510" y="236" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">蛋白质/元 ↑</text>
+  </g>
+
+  <!-- 场景三：请客 -->
+  <g>
+    <rect x="678" y="120" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="698" y="150" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「招待朋友 / 同事聚餐」</text>
+    <text x="698" y="186" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">请客</text>
+    <rect x="694" y="208" width="270" height="44" fill="#da291c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="829" y="236" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#ffffff">价格 ↑ 排面优先</text>
+  </g>
+
+  <!-- 场景四：给小孩 -->
+  <g>
+    <rect x="40" y="286" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="60" y="316" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「带小孩来」</text>
+    <text x="60" y="352" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">给小孩</text>
+    <rect x="56" y="374" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="191" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">钙/元 ↑ + 蛋白守卫</text>
+  </g>
+
+  <!-- 场景五：今天在练 -->
+  <g>
+    <rect x="359" y="286" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="379" y="316" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「刚练完 / 增肌期」</text>
+    <text x="379" y="352" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">今天在练</text>
+    <rect x="375" y="374" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="510" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">蛋白质/元 ↑ + 钠·脂肪</text>
+  </g>
+
+  <!-- 场景六：犒劳自己 -->
+  <g>
+    <rect x="678" y="286" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
+    <text x="698" y="316" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「累死了 / 心情不好」</text>
+    <text x="698" y="352" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">犒劳自己</text>
+    <rect x="694" y="374" width="270" height="44" fill="#da291c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="829" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#ffffff">供能密度 ↑</text>
+  </g>
+
+  <!-- 页脚 -->
+  <line x1="40" y1="470" x2="980" y2="470" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="40" y="512" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="21" font-weight="700" fill="#1a1a1a">六个场景冠军各不相同。</text>
+  <text x="40" y="544" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" fill="#6f6552">如果六个场景推同一款，这一问就是装饰品 —— 红色两档刻意不按每元效率排，因为那时它不是你的目标。</text>
+</svg>

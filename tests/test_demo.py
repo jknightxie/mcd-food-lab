@@ -53,6 +53,27 @@ class TestDemoBuild(unittest.TestCase):
         html = DEMO.read_text(encoding="utf-8")
         self.assertNotIn("<img", html)
 
+    def test_social_preview_meta(self):
+        """社交分享卡片必须在，且是 <meta> 而不是 <img>。
+
+        分享到掘金/微信/X 时，没有 og 标签就只是一条灰链接。这里同时守住两件事：
+        ① 标签齐全（title/description/image/url）；
+        ② 走的是 meta，所以不会碰到上面那条"零 <img>"的门禁。
+        og:image 必须是绝对地址 —— 相对路径在第三方抓取时解析不出主机名。
+        """
+        html = DEMO.read_text(encoding="utf-8")
+        for tag in ("og:title", "og:description", "og:image", "og:url", "twitter:card"):
+            self.assertIn(f'property="{tag}"' if tag.startswith("og:") else f'name="{tag}"',
+                          html, f"缺社交分享标签 {tag}")
+        self.assertRegex(
+            html, r'property="og:image" content="https://[^"]+/og\.png"',
+            "og:image 不是绝对 https 地址",
+        )
+        self.assertRegex(
+            html, r'property="og:image:width" content="1200"',
+            "og:image 尺寸与实际产物（1200x630）不一致",
+        )
+
     def test_sample_cards_in_sync_with_card_source(self):
         """三张示例卡必须与卡片源同步（README 直接引用它们）。
 

@@ -4,6 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>麦门食验室 · 在线演示（免安装 · 免 Token）</title>
+<!-- 社交分享卡片。og:image 走的是 meta 标签而不是 img 元素 —— 因此不碰
+     「演示页零外链图片」那条门禁（见 tests/test_demo.py::test_no_img_tags，
+     它是朴素子串匹配，所以这段注释本身也不能出现那三个字符）。
+     og.png 由 assets/og-card.svg 经 tools/render_assets.py 光栅化而来：
+     源是 SVG、产物是 PNG。URL 必须写绝对地址，所以固定成 Pages 域名。 -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jknightxie.github.io/mcd-food-lab/">
+<meta property="og:title" content="麦门食验室 · 在线演示（免安装 · 免 Token）">
+<meta property="og:description" content="把麦当劳官方营养数据除以门店实时价格，回答「这钱花得值不值」。四城七店实测：营养库与在售餐品的可匹配比例 18%~21%，查不到的一律不推荐、也不用估算值凑数。">
+<meta property="og:image" content="https://jknightxie.github.io/mcd-food-lab/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="麦门食验室 · 营养 ÷ 价格">
+<meta name="twitter:description" content="麦当劳 MCP 的每元营养效率助手。四城七店实测，营养库可匹配比例 18%~21%。">
+<meta name="twitter:image" content="https://jknightxie.github.io/mcd-food-lab/og.png">
 <style>
 :root {
   --ink:#1a1a1a; --red:#da291c; --yellow:#ffc72c; --cream:#f4eee1;

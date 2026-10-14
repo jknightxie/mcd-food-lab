@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 620" width="1040" height="620" role="img" aria-label="每 100 款在售餐品，约 20 款能查到营养；四城七店实测覆盖率稳定在 18% 到 21%">
+  <title>覆盖率：四城七店实测 18%~21%</title>
+  <desc>每 100 款在售餐品，约 20 款能在官方营养库里查到，其余一律不推荐也不用估算值凑数。门店规模差近一倍，覆盖率却纹丝不动。</desc>
+
+  <rect width="1040" height="620" fill="#f4eee1"/>
+  <rect x="26" y="26" width="988" height="568" fill="#1a1a1a"/>
+  <rect x="16" y="16" width="988" height="568" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+
+  <rect x="16" y="16" width="988" height="80" fill="#da291c" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="48" y="68" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="34" font-weight="700" fill="#ffffff">100 款在售餐品，营养库能匹配多少？</text>
+  <text x="972" y="66" text-anchor="end" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" fill="#ffffff" opacity="0.85">四城七店实测</text>
+
+  <!-- 左：100 格，前 20 格可匹配 -->
+  <text x="40" y="152" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">每 100 款在售餐品</text>
+
+  <g stroke="#1a1a1a" stroke-width="1.5">
+    <rect x="40" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="66" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="92" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="118" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="144" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="170" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="196" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="222" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="248" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="274" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="300" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="326" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="352" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="378" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="404" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="430" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="456" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="482" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="508" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="534" y="170" width="20" height="20" fill="#ffc72c"/>
+
+    <rect x="40" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="66" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="92" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="118" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="144" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="170" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="196" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="222" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="248" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="274" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="300" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="326" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="352" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="378" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="404" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="430" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="456" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="482" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="508" y="196" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="534" y="196" width="20" height="20" fill="#e8e0d0"/>
+
+    <rect x="40" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="66" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="92" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="118" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="144" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="170" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="196" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="222" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="248" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="274" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="300" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="326" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="352" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="378" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="404" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="430" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="456" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="482" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="508" y="222" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="534" y="222" width="20" height="20" fill="#e8e0d0"/>
+
+    <rect x="40" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="66" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="92" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="118" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="144" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="170" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="196" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="222" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="248" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="274" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="300" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="326" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="352" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="378" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="404" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="430" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="456" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="482" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="508" y="248" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="534" y="248" width="20" height="20" fill="#e8e0d0"/>
+
+    <rect x="40" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="66" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="92" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="118" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="144" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="170" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="196" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="222" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="248" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="274" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="300" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="326" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="352" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="378" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="404" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="430" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="456" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="482" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="508" y="274" width="20" height="20" fill="#e8e0d0"/>
+    <rect x="534" y="274" width="20" height="20" fill="#e8e0d0"/>
+  </g>
+
+  <rect x="40" y="318" width="22" height="22" fill="#ffc72c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="72" y="335" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 20 款能查到营养 —— 参与推荐</text>
+
+  <rect x="40" y="350" width="22" height="22" fill="#e8e0d0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="72" y="367" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 80 款查不到 —— 不推荐，也不用估算值凑数</text>
+
+  <!-- 右：七家门店条 -->
+  <text x="596" y="152" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">覆盖率：18% ~ 21%</text>
+
+  <text x="592" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">北京 建外SOHO</text>
+  <rect x="740" y="177" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="177" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+
+  <text x="592" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 吴江路</text>
+  <rect x="740" y="217" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="217" width="168" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">21%</text>
+
+  <text x="592" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 静安锦沧文华</text>
+  <rect x="740" y="257" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="257" width="160" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">20%</text>
+
+  <text x="592" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 天源路</text>
+  <rect x="740" y="297" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="297" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+
+  <text x="592" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 长兴路</text>
+  <rect x="740" y="337" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="337" width="144" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">18%</text>
+
+  <text x="592" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 福田高铁站</text>
+  <rect x="740" y="377" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="377" width="144" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">18%</text>
+
+  <text x="592" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 领展中心城</text>
+  <rect x="740" y="417" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <rect x="740" y="417" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+
+  <!-- 页脚 -->
+  <line x1="40" y1="470" x2="980" y2="470" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="40" y="510" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">覆盖率是结构性缺口，不是某家店数据不全。</text>
+  <text x="40" y="542" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="16" fill="#6f6552">门店规模差了近一倍（73 款 vs 119 款），覆盖率却纹丝不动。没查到的那些里，恰好包含几乎全部甜品。</text>
+</svg>

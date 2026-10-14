@@ -27,5 +27,11 @@ mcd-food-lab-*.html
 
 # ── 注意：以下**是要提交的**构建产物，别 ignore ──
 #   demo/index.html        演示页（README 首屏指向它，clone 后可直接打开）
+#   demo/og.png            社交分享大图（og:image / GitHub social preview 都用它）
 #   assets/demo-*.html     三张示例卡（README 引用）
 #   assets/snapshot.json   冻结的真实响应（演示页离线构建的数据源）
+#   assets/fig-*.svg       两张信息图（README 引用，手写 SVG）
+#   assets/og-card.svg     og 大图的**真源**；demo/og.png 是它光栅化的产物
+
+# 渲染草稿（tools/render_assets.py --preview 的落点），不进仓库
+assets/_preview/
