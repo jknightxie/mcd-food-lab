@@ -43,7 +43,7 @@ SNAPSHOT = ROOT / "assets/snapshot.json"
 OUT = ROOT / "demo/index.html"
 
 # 预置题库的种子：每个种子 = 一套题（换它 = 换一套题，但页内永远自洽）
-QUIZ_SEEDS = (42, 7, 2026, 111)
+QUIZ_SEEDS = (42, 7, 2026, 111, 5, 24, 1, 2, 4, 8, 9, 10)
 # 点餐单候选（与 `snapshot["order_specs"]` 对齐，价格全部来自真实 calculate-price）
 ORDER_SPECS = ("鸡排x1, 牛奶x2", "板烧鸡腿堡x1", "双层吉士汉堡x2")
 
