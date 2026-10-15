@@ -391,7 +391,14 @@ body {
   flex: none; font-size: 11px; font-weight: 900; color: var(--tan);
   font-variant-numeric: tabular-nums;
 }
-.qz-q { font-size: 13.5px; font-weight: 800; flex: 1; min-width: 0; }
+/* white-space: pre-wrap 是**必须**的 —— 日志体（21:31:04 加入购物车）和公文体
+   （「问：…答：…」逐行）的排版全靠换行，默认值会把 \n 折叠成一个空格，整段糊成一坨。
+   字重分级：铺垫常规 12px、问句加粗 13.5px —— 150 字全特粗会读得眼睛疼。 */
+.qz-q {
+  font-size: 12px; font-weight: 500; flex: 1; min-width: 0;
+  white-space: pre-wrap; line-height: 1.7;
+}
+.qz-q .q-ask { font-size: 13.5px; font-weight: 800; }
 /* ── 战绩水印图章 ──
    对/错不是题旁的小图标，是两枚**盖在答案区正中的水印大印**：
    朱砂色、双边框（外粗内细，outline 负偏移内描边）、宋体大字、
@@ -634,6 +641,21 @@ def _footer_html(project_url: str = "") -> str:
         f'开源地址：<a href="{_esc(url)}">{_esc(url)}</a></div>'
         "</div>"
     )
+
+
+def _qz_text(text: Any) -> str:
+    """题面渲染：用空行把「铺垫」和「问句」分开，铺垫常规字重、问句加粗。
+
+    为什么要分：梗壳重写后题面从平均 45 字涨到 100~160 字（日志体/公文体），
+    整段特粗读起来很累。配合 .qz-q 的 white-space:pre-wrap，
+    换行原样保留 —— 日志体的时间列、公文体的「问：/答：」逐行都靠它。
+    """
+    raw = str(text).strip()
+    parts = [p.strip() for p in raw.split("\n\n") if p.strip()]
+    if len(parts) <= 1:
+        return f'<span class="q-ask">{_esc(raw)}</span>'
+    head = "\n\n".join(parts[:-1])
+    return f'{_esc(head)}\n\n<span class="q-ask">{_esc(parts[-1])}</span>'
 
 
 def _esc(text: Any) -> str:
@@ -1043,7 +1065,7 @@ def render_quiz_card(
             f'<div class="qz-row">'
             f'<div class="qz-top">'
             f'<span class="qz-no">Q{no}</span>'
-            f'<span class="qz-q">{_esc(q.text)}</span>'
+            f'<span class="qz-q">{_qz_text(q.text)}</span>'
             f"</div>"
             # 水印图章盖在答案区上：绝对定位 + 低透明度 + 不拦截指针
             f'<div class="qz-body">'

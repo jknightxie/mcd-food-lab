@@ -301,7 +301,11 @@ h1 {{ font-size:21px; margin:14px 0 6px; }}
 .qbox {{ background:var(--paper); border:3px solid var(--ink); border-radius:16px;
          padding:16px; box-shadow:6px 6px 0 var(--ink); }}
 .qmeta {{ font-size:11px; font-weight:800; color:var(--tan); letter-spacing:.06em; }}
-.qtext {{ font-size:15px; font-weight:800; margin:8px 0 13px; }}
+/* white-space:pre-wrap 必须 —— 日志体（时间列）和公文体（问：/答：逐行）的排版全靠换行。
+   字重分级：铺垫 13.5px 常规、问句 15px 加粗，避免 150 字全特粗读得眼睛疼。 */
+.qtext {{ font-size:13.5px; font-weight:500; margin:8px 0 13px;
+          white-space:pre-wrap; line-height:1.75; }}
+.qtext .q-ask {{ font-size:15px; font-weight:800; }}
 .opts {{ display:grid; gap:8px; }}
 .opts button {{
   font-family:inherit; cursor:pointer; text-align:left;
@@ -458,13 +462,26 @@ window.addEventListener("hashchange", () => showTab(location.hash.slice(1)));
 const state = {{ i: 0, picks: [], done: false }};
 const Q = SET.questions;  // 随机抽中的那一套（每套题数与段位表一致）
 
+/* ── 题面渲染：空行把「铺垫」和「问句」分开，问句加粗 ──
+   换行必须原样保留（配合 .qtext 的 pre-wrap）：日志体的时间列、
+   公文体的「问：/答：」逐行，全靠它。
+   ⚠️ 这里是 Python f-string：JS 里的 \n 必须写成 \\n，否则会被 Python
+   先解释成真换行，把 JS 字符串字面量截断 —— 整段脚本静默不执行。 */
+function askHtml(t) {{
+  const parts = String(t).split("\\n\\n").map(s => s.trim()).filter(Boolean);
+  if (!parts.length) return "";
+  if (parts.length === 1) return `<span class="q-ask">${{parts[0]}}</span>`;
+  const head = parts.slice(0, -1).join("\\n\\n");
+  return `${{head}}\\n\\n<span class="q-ask">${{parts[parts.length - 1]}}</span>`;
+}}
+
 function renderQuestion() {{
   const box = document.getElementById("qbox");
   const q = Q[state.i];
   const letters = "ABCD";
   box.innerHTML = `
     <div class="qmeta">Q${{state.i + 1}} / ${{Q.length}}</div>
-    <div class="qtext">${{q.text}}</div>
+    <div class="qtext">${{askHtml(q.text)}}</div>
     <div class="opts" id="opts"></div>
     <div id="verdict"></div>`;
   const opts = document.getElementById("opts");

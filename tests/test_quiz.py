@@ -258,6 +258,48 @@ class TestFrameRegistry(unittest.TestCase):
             n = sum(1 for f in FRAMES if f.mode == mode)
             self.assertGreaterEqual(n, 5, f"mode {mode} 帧数太少，抽不出多样性")
 
+    # 能被 build_quiz 真正生产出来的槽位（即 _slot_of 的映射目标）
+    LIVE_SLOTS = ("T1", "T2", "T3", "T5")
+    # 已知「死槽位」：T4 只由 _slot_of 的兜底分支产生，而没有任何题型映射到它。
+    # 目前挂着 6 个未重写的旧风格壳（persona×4 + scene×2），第二批重写时搬走。
+    KNOWN_DEAD_SLOTS = ("T4",)
+
+    def test_every_live_slot_has_enough_frames(self):
+        """活槽位每档至少 3 帧 —— 否则同一门店连开两次就会撞上同一套题面。"""
+        for slot in self.LIVE_SLOTS:
+            n = sum(1 for f in FRAMES if f.slot == slot)
+            self.assertGreaterEqual(n, 3, f"槽位 {slot} 只有 {n} 帧，太容易重复")
+
+    def test_dead_slots_are_explicit(self):
+        """死槽位只能是已知的那几个。
+
+        这条防的是"悄悄写了一批永远不会被抽到的壳"：新增槽位忘了配 _slot_of 映射，
+        或者写壳时把 slot 拼错，这里都会红。
+        """
+        for f in FRAMES:
+            if f.slot not in self.LIVE_SLOTS:
+                self.assertIn(
+                    f.slot,
+                    self.KNOWN_DEAD_SLOTS,
+                    f"{f.key} 落在没人会抽的槽位 {f.slot}",
+                )
+
+    def test_question_text_has_no_reporting_label(self):
+        """题面不许贴「问题：」这类报题标签 —— 那是第一轮被砍掉的病。
+
+        有意豁免：「问：」在询问笔录 / 听证记录里是文体自带的记录格式，不禁；
+        「…小问题：」「…第一问：」出现在句中，也不禁。只禁行首的「问题：」。
+        """
+        import re as _re
+
+        for f in FRAMES:
+            self.assertIsNone(
+                _re.search(r"^\s*问题：", f.text, _re.M),
+                f"{f.key} 的行首出现报题标签「问题：」",
+            )
+            for bad in ("先算笔账", "别猜了，做题"):
+                self.assertNotIn(bad, f.text, f"{f.key} 含报题标签「{bad}」")
+
     def test_templates_format_safely(self):
         """所有帧模板用完整槽位字典格式化，不抛 KeyError。"""
         slots = {"A": "甲", "B": "乙", "C": "丙", "D": "丁", "价格A": "1", "价格B": "2"}

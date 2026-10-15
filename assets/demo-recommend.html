@@ -187,7 +187,15 @@ body {
   flex: none; font-size: 11px; font-weight: 900; color: var(--tan);
   font-variant-numeric: tabular-nums;
 }
-.qz-q { font-size: 13.5px; font-weight: 800; flex: 1; min-width: 0; }
+/* white-space: pre-wrap 是**必须**的 —— 日志体（21:31:04 加入购物车）和公文体
+   （「问：…答：…」逐行）的排版全靠换行，默认值会把 
+ 折叠成一个空格，整段糊成一坨。
+   字重分级：铺垫常规 12px、问句加粗 13.5px —— 150 字全特粗会读得眼睛疼。 */
+.qz-q {
+  font-size: 12px; font-weight: 500; flex: 1; min-width: 0;
+  white-space: pre-wrap; line-height: 1.7;
+}
+.qz-q .q-ask { font-size: 13.5px; font-weight: 800; }
 /* ── 战绩水印图章 ──
    对/错不是题旁的小图标，是两枚**盖在答案区正中的水印大印**：
    朱砂色、双边框（外粗内细，outline 负偏移内描边）、宋体大字、

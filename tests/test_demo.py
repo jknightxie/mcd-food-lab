@@ -74,6 +74,18 @@ class TestDemoBuild(unittest.TestCase):
             "og:image 尺寸与实际产物（1200x630）不一致",
         )
 
+    def test_long_question_text_keeps_line_breaks(self):
+        """长题面的换行必须真能渲染出来。
+
+        梗壳重写后题面从平均 45 字涨到 100~160 字：日志体的时间列
+        （「21:31:04  加入购物车」）和公文体的「问：/答：」逐行，全靠换行。
+        CSS 少了 pre-wrap，浏览器会把 \\n 折叠成空格，整段糊成一坨 —— 而且不报错。
+        """
+        html = DEMO.read_text(encoding="utf-8")
+        self.assertIn("white-space:pre-wrap", html, "题面缺 pre-wrap，换行会被吃掉")
+        self.assertIn("function askHtml", html, "缺题面渲染函数（铺垫/问句分级）")
+        self.assertIn('class="q-ask"', html, "缺问句加粗的样式钩子")
+
     def test_sample_cards_in_sync_with_card_source(self):
         """三张示例卡必须与卡片源同步（README 直接引用它们）。
 
