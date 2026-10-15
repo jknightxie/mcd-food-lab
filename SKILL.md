@@ -1,5 +1,8 @@
 ---
 name: mcd-food-lab
+# LobeHub 技能市场的 identifier。`lhm skill publish` 从这里读，就不用每次带 --identifier。
+# 值来自 `lhm skill list` 的实际输出（STATUS: published, latest 1.0.1），不是猜的。
+identifier: jknightxie-mcd-food-lab
 description: 回答「今天这顿想干什么」并按每元营养效率给出麦当劳餐品推荐。当用户说「我今天想吃麦当劳但不知道选哪个」「健身/控糖/请客/带小孩该点哪款」「哪款麦当劳蛋白质性价比最高」「麦当劳营养数据准不准」时使用。基于官方 MCP 的营养库与门店实时菜单做除法，并正面披露数据覆盖率（实测四城七店为 18%~21%）。
 ---
 
