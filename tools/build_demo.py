@@ -273,7 +273,7 @@ def _page(data: dict) -> str:
 * {{ box-sizing:border-box; margin:0; padding:0; }}
 body {{
   background:var(--cream); color:var(--ink); line-height:1.6;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font-family:"PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   padding:26px 14px 40px; -webkit-font-smoothing:antialiased;
 }}
 .wrap {{ max-width:520px; margin:0 auto; }}
@@ -302,10 +302,11 @@ h1 {{ font-size:21px; margin:14px 0 6px; }}
          padding:16px; box-shadow:6px 6px 0 var(--ink); }}
 .qmeta {{ font-size:11px; font-weight:800; color:var(--tan); letter-spacing:.06em; }}
 /* white-space:pre-wrap 必须 —— 日志体（时间列）和公文体（问：/答：逐行）的排版全靠换行。
-   字重分级：铺垫 13.5px 常规、问句 15px 加粗，避免 150 字全特粗读得眼睛疼。 */
-.qtext {{ font-size:13.5px; font-weight:500; margin:8px 0 13px;
+   字重分级只用 400 / 700：微软雅黑只有 Regular 和 Bold，写 600/900 会被抹成同一档。
+   字号保持同级，避免同一段里出现两种字号看起来"字体不统一"。 */
+.qtext {{ font-size:14px; font-weight:400; margin:8px 0 13px;
           white-space:pre-wrap; line-height:1.75; }}
-.qtext .q-ask {{ font-size:15px; font-weight:800; }}
+.qtext .q-ask {{ font-weight:700; }}
 .opts {{ display:grid; gap:8px; }}
 .opts button {{
   font-family:inherit; cursor:pointer; text-align:left;

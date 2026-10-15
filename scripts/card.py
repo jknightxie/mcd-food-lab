@@ -221,8 +221,8 @@ _CARD_CSS = """
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--cream); color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont,
+               "Segoe UI", sans-serif;
   padding: 26px 14px; line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -393,12 +393,13 @@ body {
 }
 /* white-space: pre-wrap 是**必须**的 —— 日志体（21:31:04 加入购物车）和公文体
    （「问：…答：…」逐行）的排版全靠换行，默认值会把 \n 折叠成一个空格，整段糊成一坨。
-   字重分级：铺垫常规 12px、问句加粗 13.5px —— 150 字全特粗会读得眼睛疼。 */
+   字重分级只用 400 / 700 这一对：微软雅黑只有 Regular 和 Bold 两档，
+   写 600 或 900 会被抹成同一档，分不出层次。字号保持同一级，避免看起来"字体不统一"。 */
 .qz-q {
-  font-size: 12px; font-weight: 500; flex: 1; min-width: 0;
+  font-size: 13px; font-weight: 400; flex: 1; min-width: 0;
   white-space: pre-wrap; line-height: 1.7;
 }
-.qz-q .q-ask { font-size: 13.5px; font-weight: 800; }
+.qz-q .q-ask { font-weight: 700; }
 /* ── 战绩水印图章 ──
    对/错不是题旁的小图标，是两枚**盖在答案区正中的水印大印**：
    朱砂色、双边框（外粗内细，outline 负偏移内描边）、宋体大字、
