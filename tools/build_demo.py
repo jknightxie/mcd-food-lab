@@ -302,11 +302,14 @@ h1 {{ font-size:21px; margin:14px 0 6px; }}
          padding:16px; box-shadow:6px 6px 0 var(--ink); }}
 .qmeta {{ font-size:11px; font-weight:800; color:var(--tan); letter-spacing:.06em; }}
 /* white-space:pre-wrap 必须 —— 日志体（时间列）和公文体（问：/答：逐行）的排版全靠换行。
-   字重分级只用 400 / 700：微软雅黑只有 Regular 和 Bold，写 600/900 会被抹成同一档。
-   字号保持同级，避免同一段里出现两种字号看起来"字体不统一"。 */
-.qtext {{ font-size:14px; font-weight:400; margin:8px 0 13px;
+   题面字重必须与选项、与页面其他文字**完全一致**（都 700）。
+   曾经在这里做过"铺垫常规 / 问句加粗"的分级，用户直接指着说「这里的字体和别的不一致」——
+   那是题面 150 字时代的权宜之计；题面压到 60 字后分级已无必要，反而破坏统一。
+   空白行仍然把铺垫和问句分开（pre-wrap 保留换行），层次靠留白，不靠字重。 */
+.qtext {{ font-size:14px; font-weight:700; margin:8px 0 13px;
           white-space:pre-wrap; line-height:1.75; }}
-.qtext .q-ask {{ font-weight:700; }}
+/* .q-ask 保留为钩子：若将来想用**颜色**（而非字重）做层次，改这里即可 —— 字重别再动。 */
+.qtext .q-ask {{ }}
 .opts {{ display:grid; gap:8px; }}
 .opts button {{
   font-family:inherit; cursor:pointer; text-align:left;
