@@ -4,6 +4,7 @@
 门店撑不起反转时自动换题 —— 绝不硬凑。
 """
 
+import random
 import sys
 import unittest
 from pathlib import Path
@@ -16,6 +17,9 @@ from fuel_index import build_index  # noqa: E402
 from quiz import (  # noqa: E402
     FRAMES,
     RANKS,
+    Question,
+    _pair_ask,
+    _pick_frames,
     build_quiz,
     rank_for,
     reversal_pair,
@@ -230,7 +234,9 @@ if __name__ == "__main__":
 class TestFrameRegistry(unittest.TestCase):
     """梗壳注册表的完整性：50 帧、六来源、槽位合法、可安全格式化。"""
 
-    ALLOWED_SLOTS = {"T1", "T2", "T3", "T4", "T5"}
+    # T4 已从名单里去掉：梗壳第二批把它清空了（原来挂着 6 个永远不会被抽到的壳）。
+    # 现在任何落在 T4 的帧都会被 test_allowed_slots_and_modes 拦下。
+    ALLOWED_SLOTS = {"T1", "T2", "T3", "T5"}
     ALLOWED_MODES = {"roast", "persona", "scene", "dialogue", "paper", "series"}
     # 帧模板允许的占位符（语义：A=贵的知名款 B=效率冠军 C/D=干扰款）
     ALLOWED_PLACEHOLDERS = {"{A}", "{B}", "{C}", "{D}", "{价格A}", "{价格B}"}
@@ -260,9 +266,10 @@ class TestFrameRegistry(unittest.TestCase):
 
     # 能被 build_quiz 真正生产出来的槽位（即 _slot_of 的映射目标）
     LIVE_SLOTS = ("T1", "T2", "T3", "T5")
-    # 已知「死槽位」：T4 只由 _slot_of 的兜底分支产生，而没有任何题型映射到它。
-    # 目前挂着 6 个未重写的旧风格壳（persona×4 + scene×2），第二批重写时搬走。
-    KNOWN_DEAD_SLOTS = ("T4",)
+    # 死槽位已清零：梗壳第二批把原来挂在 T4（永远不会被抽到）的 6 个壳
+    # 全部重写并搬进了活槽位。这里留空列表而不是删掉断言 ——
+    # 下次谁再写出一个没人抽的槽位，test_dead_slots_are_explicit 会立刻红。
+    KNOWN_DEAD_SLOTS: tuple[str, ...] = ()
 
     def test_every_live_slot_has_enough_frames(self):
         """活槽位每档至少 3 帧 —— 否则同一门店连开两次就会撞上同一套题面。"""
@@ -271,7 +278,7 @@ class TestFrameRegistry(unittest.TestCase):
             self.assertGreaterEqual(n, 3, f"槽位 {slot} 只有 {n} 帧，太容易重复")
 
     def test_dead_slots_are_explicit(self):
-        """死槽位只能是已知的那几个。
+        """死槽位只能是已知的那几个（现在是零个）。
 
         这条防的是"悄悄写了一批永远不会被抽到的壳"：新增槽位忘了配 _slot_of 映射，
         或者写壳时把 slot 拼错，这里都会红。
@@ -283,6 +290,41 @@ class TestFrameRegistry(unittest.TestCase):
                     self.KNOWN_DEAD_SLOTS,
                     f"{f.key} 落在没人会抽的槽位 {f.slot}",
                 )
+
+    def test_wide_questions_never_get_pair_ask_frames(self):
+        """四选一的题不许配「{A} 和 {B} 谁高」式的壳。
+
+        这是本次补的一个真实缺陷：T2（每元蛋白）在「反转对」分支是 2 选项、
+        在「找冠军」分支是 4 选项。点名比两个的壳一旦配到 4 选项题上，
+        正确答案可能是第三个 —— 题面就成了错题。守卫在 _pick_frames 里，
+        这里用一道假的四选一题反复抽，断言抽到的壳都不是点名对比式。
+        """
+        wide = Question(
+            key="per_yuan",
+            text="x",
+            options=("甲", "乙", "丙", "丁"),
+            correct=0,
+            reveal="",
+        )
+        picked = [f for f in (_pick_frames([wide], random.Random(s))[0] for s in range(300)) if f]
+        self.assertTrue(picked, "四选一题一个壳都抽不到")
+        for f in picked:
+            self.assertFalse(
+                _pair_ask(f), f"四选一题配到了点名对比式的壳：{f.key}"
+            )
+        # 配对题（3 选项）仍然应该能抽到点名对比式的壳（否则那群壳就白写了）
+        narrow = Question(
+            key="per_yuan",
+            text="x",
+            options=("甲", "乙", "一样多"),
+            correct=0,
+            reveal="",
+        )
+        got = {_pick_frames([narrow], random.Random(s))[0].key for s in range(300)}
+        self.assertTrue(
+            any(_pair_ask(f) for f in FRAMES if f.key in got),
+            "两选一的题抽不到任何点名对比式的壳，T2 的 pair 壳等于被废了",
+        )
 
     def test_question_text_has_no_reporting_label(self):
         """题面不许贴「问题：」这类报题标签 —— 那是第一轮被砍掉的病。
@@ -321,9 +363,15 @@ class TestFrameRegistry(unittest.TestCase):
             )
 
     def test_role_semantics_are_stable(self):
-        """角色敏感帧用 A=贵/B=冠军 的固定语义（相亲大会的排面话术）。"""
+        """角色敏感帧用 A=贵/B=冠军 的固定语义（相亲大会的排面话术）。
+
+        锁的是**语义**不是原句：A 必须说「我贵」，这样它才只能配到
+        「贵的那个当诱饵」的题上。措辞改过（第二批把「自我介绍」改成了
+        「一坐下就自我介绍」），语义没动，所以断言跟着放松到那一句。
+        """
         text = next(f.text for f in FRAMES if f.key == "persona_blinddate")
-        self.assertIn("{A} 自我介绍：「我贵，但我有排面。」", text)
+        self.assertIn("自我介绍：「我贵，但我有排面。」", text)
+        self.assertIn("{A}", text.split("自我介绍")[0], "说「我贵」的必须是 {A}")
 
 
 class TestFramedQuiz(unittest.TestCase):
@@ -348,19 +396,27 @@ class TestFramedQuiz(unittest.TestCase):
 
     def test_modes_and_frames_not_repeated_in_one_session(self):
         """同场 3 题 mode 不重复、帧不重复。"""
-        # 通过同一 seed 复现：抽帧函数确定性
         import random
 
-        from quiz import _apply_frames, _pick_frames
+        from quiz import _pick_frames
 
-        base = [q for q in build_quiz(self.idx, rng=random.Random(42))]
-        # 直接验证 _pick_frames 的约束
-        picked = _pick_frames(["T1", "T2", "T3"], random.Random(7))
+        # 直接验证 _pick_frames 的约束。选项数按真实分支给：
+        # 配对题 3 个（两个餐品 + 「一样多」）、找冠军题 4 个。
+        def q(key, n, opts):
+            return Question(key=key, text="x", options=opts, correct=0, reveal="")
+
+        picked = _pick_frames(
+            [
+                q("protein_total", 3, ("甲", "乙", "一样多")),
+                q("per_yuan", 3, ("甲", "乙", "一样多")),
+                q("calcium_per_yuan", 4, ("甲", "乙", "丙", "丁")),
+            ],
+            random.Random(7),
+        )
         self.assertEqual(len(picked), 3)
         self.assertTrue(all(p is not None for p in picked))
         self.assertEqual(len({p.mode for p in picked}), 3)
         self.assertEqual(len({p.key for p in picked}), 3)
-        del base
 
     def test_reveal_keeps_real_numbers(self):
         """揭示层必须保留真实数据揭示（帧只往后面接调味句）。"""
