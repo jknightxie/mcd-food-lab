@@ -994,6 +994,7 @@ def render_quiz_card(
     project_url: str = "",
     style: str = "classic",
     switchable: bool = True,
+    quiz: tuple[Question, ...] | None = None,
 ) -> str:
     """麦门战力测试战报卡。
 
@@ -1016,7 +1017,7 @@ def render_quiz_card(
     switch_html, switch_js = _switch_html(style) if switchable else ("", "")
     switch_css = _SWITCH_CSS if switchable else ""
 
-    quiz = build_quiz(index)
+    quiz = quiz if quiz is not None else build_quiz(index)
     if not quiz:
         return _empty_card(index, "战力测试", style, project_url=project_url)
     if len(answers) != len(quiz):

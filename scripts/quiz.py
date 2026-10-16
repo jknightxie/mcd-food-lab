@@ -119,13 +119,13 @@ FRAMES: tuple[Frame, ...] = (
           "麦门奥运会决赛，只剩两位选手：{A} 和 {B}。\n颁奖台搭好了，主持人手卡上写着「蛋白质总量」。\n\n{A} 和 {B}，谁的蛋白更多？",
           "台下有人举着「每元」的牌子，被保安请出去了。"),
     Frame("persona_showdown", "persona", "T2",
-          "《王牌对王牌》麦门专场，{A} 队先出场，掌声很响。\n节目组把两队的小票都收了上来，说要现场核对一个数字。\n\n每 1 元蛋白最高的那队，是哪一款？",
+          "《王牌对王牌》麦门专场，A 队先出场，掌声很响。\n节目组把两队的小票都收上来，说要现场核对一个数字。\n\n每 1 元蛋白最高的那队，是哪一款？",
           "掌声不计分，小票计。"),
     Frame("persona_matchmaking", "persona", "T5",
-          "汉堡们参加《非诚勿扰》。{A} 介绍完毕。\n女嘉宾只提了一个要求：「我要每 1 元热量最低的那种。」灯灭了七盏。\n\n全店每 1 元热量最低的那款，是哪个？",
+          "汉堡们参加《非诚勿扰》，第一位男嘉宾介绍完毕。\n女嘉宾只提了一个要求：「我要每 1 元热量最低的那种。」灯灭了七盏。\n\n全店每 1 元热量最低的那款，是哪个？",
           "灯灭得快，说明这个要求不常见。"),
     Frame("persona_rap", "persona", "T5",
-          "《中国有新说唱》麦门分赛。{A} 用 freestyle 讲完了自己的配料。\n评委没点评，低头算了三秒。\n\n每 1 元热量最低的那款，是哪个？",
+          "《中国有新说唱》麦门分赛。第一位选手用 freestyle 讲完了自己的配料。\n评委没点评，低头算了三秒。\n\n每 1 元热量最低的那款，是哪个？",
           "Flow 可以 freestyle，热量不行。"),
     Frame("persona_debut", "persona", "T3",
           "出道夜。四个名字念完，灯光打在最贵的那位身上。\n台下没人喊他的名字——几个人在低声问「这个多少钱来着」。\n\n每 1 元补钙最高的那款，是哪个？",
@@ -219,7 +219,7 @@ FRAMES: tuple[Frame, ...] = (
           "第二季。小明把 {A} 和 {B} 摆在一起拍了张照。\n评论区说「左边那个看着实在」。\n\n{A} 和 {B}，谁的蛋白更多？",
           "照片看得出大小，看不出蛋白。"),
     Frame("series_s3", "series", "T2",
-          "第三季。小明开始留意小票了，但他只看最下面那个数。\n{A} 吃了七次，他还是不知道它每元给多少蛋白。\n\n全店每 1 元蛋白最高的是哪款？",
+          "第三季。小明开始留意小票了，但他只看最下面那个数。\n看了七次，他仍然不知道那是这一单的、不是这一口的。\n\n全店每 1 元蛋白最高的是哪款？",
           "小票最下面那个数，是这一单的，不是这一口的。"),
     Frame("series_s4", "series", "T3",
           "第四季。小明开始给别人推荐了，理由是「这个我常点」。\n「常点」和「划算」之间，隔着一个除法。\n\n每 1 元补钙最高的那款，是哪个？",
@@ -337,6 +337,36 @@ def _champion_question(
     return question, slots
 
 
+def _kcal_question(
+    index: FuelIndex, seed: int
+) -> tuple[Question, dict[str, str]]:
+    """「每 1 元热量最低」找冠军题：诱饵从热量最高的几款里挑。"""
+    by_k = sorted(
+        (i for i in index.items if i.kcal_per_yuan is not None),
+        key=lambda i: i.kcal_per_yuan,
+    )
+    champ_k = by_k[0]
+    decoys: list[str] = []
+    for item in by_k[::-1]:
+        if item.name != champ_k.name and item.name not in decoys:
+            decoys.append(item.name)
+        if len(decoys) >= 3:
+            break
+    options, correct = _place([champ_k.name] + decoys, 0, seed + 2)
+    question = Question(
+        key="kcal",
+        text="每 1 元吃到的热量最少的是？",
+        options=options,
+        correct=correct,
+        reveal=(
+            f"{champ_k.name}：{_fmt(champ_k.kcal_per_yuan, 1)} kcal/元。"
+            f"总量高的不一定是冠军 —— 除以价格才知道。"
+        ),
+    )
+    slots = {"A": options[0], "B": options[1], "C": options[2], "D": options[3]}
+    return question, slots
+
+
 def build_quiz(index: FuelIndex, rng: random.Random | None = None) -> tuple[Question, ...]:
     """从当前门店实时数据生成 3 道题，并套上随机梗壳。
 
@@ -396,7 +426,16 @@ def build_quiz(index: FuelIndex, rng: random.Random | None = None) -> tuple[Ques
             )
         )
         slots_list.append(pair_slots)
-        q, s = _champion_question(index, "calcium_per_yuan", "每 1 元补钙", seed + 1)
+        # 第三题在「每元补钙」和「每元热量」之间轮换，各占一半。
+        # 原来固定是补钙，图的是「总量陷阱 → 每元反转 → 补钙王」的收尾叙事；
+        # 用户明确说不需要那个叙事，改成轮换 —— 好处是 T3 / T5 两个池子都能上桌，
+        # 刷出来的题型也不再永远是那三种。
+        # 用 rng 而不是 seed 掷币：seed 是门店餐品数，同一门店恒定，
+        # 按它轮换等于不轮换，12 套题库会全部落到同一边。
+        if rng.random() < 0.5:
+            q, s = _champion_question(index, "calcium_per_yuan", "每 1 元补钙", seed + 1)
+        else:
+            q, s = _kcal_question(index, seed + 2)
         base.append(q)
         slots_list.append(s)
     else:
@@ -406,45 +445,30 @@ def build_quiz(index: FuelIndex, rng: random.Random | None = None) -> tuple[Ques
         q, s = _champion_question(index, "calcium_per_yuan", "每 1 元补钙", seed + 1)
         base.append(q)
         slots_list.append(s)
-        by_k = sorted(
-            (i for i in index.items if i.kcal_per_yuan is not None),
-            key=lambda i: i.kcal_per_yuan,
-        )
-        champ_k = by_k[0]
-        decoys = []
-        for item in by_k[::-1]:
-            if item.name != champ_k.name and item.name not in decoys:
-                decoys.append(item.name)
-            if len(decoys) >= 3:
-                break
-        options, correct = _place([champ_k.name] + decoys, 0, seed + 2)
-        base.append(
-            Question(
-                key="kcal",
-                text="每 1 元吃到的热量最少的是？",
-                options=options,
-                correct=correct,
-                reveal=(
-                    f"{champ_k.name}：{_fmt(champ_k.kcal_per_yuan, 1)} kcal/元。"
-                    f"总量高的不一定是冠军 —— 除以价格才知道。"
-                ),
-            )
-        )
-        slots_list.append(
-            {"A": options[0], "B": options[1], "C": options[2], "D": options[3]}
-        )
+        q, s = _kcal_question(index, seed + 2)
+        base.append(q)
+        slots_list.append(s)
 
     return _apply_frames(base, slots_list, rng)
+
+
+def _names_candidate(frame: Frame) -> bool:
+    """壳里有没有点名某个候选（出现 {A}–{D} 任一）。
+
+    **找冠军型题（4 选项）最怕这个**：题面里出现一个候选名，读者会把它当成
+    "被隆重介绍的那个"，而它有可能就是正确答案 —— 等于泄题。
+    配对题（3 选项）没这个问题：题面点名两个候选本身就是题目的一部分。
+
+    tests/test_quiz.py::test_champion_questions_hide_the_answer 扫 30 个 seed 抓这个。
+    """
+    return any(ph in frame.text for ph in ("{A}", "{B}", "{C}", "{D}"))
 
 
 def _pair_ask(frame: Frame) -> bool:
     """这个壳的问句是不是「点名的两人对比」（末行同时出现 {A} 和 {B}）。
 
-    为什么要在意：只有 T1（蛋白总量）的题恒为**两个选项**（反转对分支），
-    可以放心写「{A} 和 {B} 谁高」。而 **T2（每元蛋白）会在两种分支里出现** ——
-    有反转对时是 2 选项，没有反转对时走"找冠军"、变成 **4 选项**。
-    在 4 选项的题上点名比两个，正确答案可能是第三个 —— 题面就成了错题。
-    所以 T2/T3/T5 遇到多选项题时，跳过这类壳，只从"谁最高"式的壳里抽。
+    比 _names_candidate 更窄：只在末行出现两个占位符才算。
+    留作独立判据是为了能单独断言"配对式问句可以留在 T2 给配对题用"。
     """
     ask = frame.text.strip().split("\n")[-1]
     return "{A}" in ask and "{B}" in ask
@@ -468,7 +492,7 @@ def _pick_frames(
     used_modes: set[str] = set()
     used_keys: set[str] = set()
     for slot, is_wide in zip(slots, wide):
-        ok = lambda f: not (is_wide and _pair_ask(f))  # noqa: E731
+        ok = lambda f: not (is_wide and _names_candidate(f))  # noqa: E731
         pool = [
             f for f in FRAMES
             if f.slot == slot and f.mode not in used_modes and f.key not in used_keys and ok(f)

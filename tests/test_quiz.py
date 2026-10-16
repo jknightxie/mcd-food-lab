@@ -70,11 +70,19 @@ class TestBuildQuiz(unittest.TestCase):
         self.assertIn("1.71", q.reveal)
         self.assertIn("1.06", q.reveal)
 
-    def test_q3_is_calcium(self):
-        """第 3 题是补钙王 —— 纯牛奶（231mg / ¥10.5）。"""
+    def test_q3_is_calcium_or_kcal(self):
+        """第 3 题在「每元补钙」和「每元热量」之间轮换（各约一半）。
+
+        原来固定是补钙，图的是「总量陷阱 → 每元反转 → 补钙王收尾」的叙事；
+        用户明确说不需要那个叙事，改成轮换 —— T3 / T5 两个壳池这才都能上桌。
+        这里锁三件事：只可能是这两个题型、恒 4 选项、选项都来自本店在售餐品。
+        """
         q = self.quiz[2]
-        self.assertEqual(q.key, "calcium_per_yuan")
-        self.assertEqual(q.options[q.correct], "纯牛奶(盒装)")
+        self.assertIn(q.key, ("calcium_per_yuan", "kcal"))
+        self.assertEqual(len(q.options), 4)
+        names = {i.name for i in self.idx.items}
+        for opt in q.options:
+            self.assertIn(opt, names, "选项里有不在本店菜单上的东西")
 
     # 题面允许出现的「引用事实」价格（README 记录的四城实测，非本店数据）
     CITED_FACTS = {"25.5", "26.5"}
@@ -151,37 +159,40 @@ class TestQuizCard(unittest.TestCase):
         self.answers = correct_answers(self.quiz)
 
     def test_produces_complete_html(self):
-        html = render_quiz_card(self.idx, self.answers)
+        html = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertTrue(html.startswith("<!DOCTYPE html>"))
         self.assertIn("</html>", html)
         self.assertIn("<meta charset", html)
 
     def test_rank_title_in_hero(self):
-        html = render_quiz_card(self.idx, self.answers)
+        html = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertIn("麦门战神", html)
         self.assertIn("答对", html)
         self.assertIn("3</b> / 3", html)
 
     def test_reveals_present_with_real_numbers(self):
-        html = render_quiz_card(self.idx, self.answers)
+        html = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertIn("逐题复盘", html)
         self.assertIn("1.71", html)   # 鸡排每元蛋白
         self.assertIn("27", html)     # 巨无霸总量
-        self.assertIn("纯牛奶(盒装)", html)
+        # 第 3 题在补钙 / 热量之间轮换，答案跟着变 —— 断"本题的真实答案出现在卡上"，
+        # 而不是写死某个品名（写死会在轮换到另一边时假红）
+        q3 = self.quiz[2]
+        self.assertIn(q3.options[q3.correct], html)
 
     def test_wrong_answers_marked(self):
         wrong = tuple((q.correct + 1) % len(q.options) for q in self.quiz)
-        html = render_quiz_card(self.idx, wrong)
+        html = render_quiz_card(self.idx, wrong, quiz=self.quiz)
         self.assertIn("qz-bad", html)
         self.assertIn("麦门路人", html)
         self.assertIn("你答了", html)
 
     def test_sticker_only_with_reversal(self):
-        html = render_quiz_card(self.idx, self.answers)
+        html = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertIn("每元蛋白王", html)  # fixture 反转成立，贴纸必须出现
 
     def test_coverage_disclosure_present(self):
-        html = render_quiz_card(self.idx, self.answers)
+        html = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertIn("款在售", html)
         self.assertIn("不参与推荐", html)
 
@@ -195,7 +206,7 @@ class TestQuizCard(unittest.TestCase):
         """落款恒定带开源链接（没传 project_url 兜底 PROJECT_URL）。"""
         from card import PROJECT_URL
 
-        without = render_quiz_card(self.idx, self.answers)
+        without = render_quiz_card(self.idx, self.answers, quiz=self.quiz)
         self.assertIn(PROJECT_URL, without)
         with_url = render_quiz_card(
             self.idx, self.answers, project_url="https://example.com/x"
@@ -204,18 +215,18 @@ class TestQuizCard(unittest.TestCase):
 
     def test_all_styles_render(self):
         for style in STYLES:
-            html = render_quiz_card(self.idx, self.answers, style=style)
+            html = render_quiz_card(self.idx, self.answers, style=style, quiz=self.quiz)
             self.assertIn(f't-{style}"', html)
             self.assertIn("麦门战神", html)
             self.assertIn("逐题复盘", html)
 
     def test_unknown_style_raises(self):
         with self.assertRaises(ValueError):
-            render_quiz_card(self.idx, self.answers, style="赛博")
+            render_quiz_card(self.idx, self.answers, style="赛博", quiz=self.quiz)
 
     def test_answer_count_mismatch_raises(self):
         with self.assertRaises(ValueError):
-            render_quiz_card(self.idx, (0, 0))
+            render_quiz_card(self.idx, (0, 0), quiz=self.quiz)
 
     def test_empty_index_renders_honest(self):
         from fuel_index import FuelIndex
