@@ -369,14 +369,20 @@ body {
   padding: 11px 16px;
 }
 .foot-brand { font-size: 11.5px; font-weight: 900; }
+/* 仓库入口单独一行、墨色、加粗。原来它混在 10px 灰字里 —— 而卡片是会被截图传播的
+   东西，截图里那行小字基本等于不存在，等于传播链路在这儿断掉。 */
+.foot-star {
+  font-size: 11.5px; font-weight: 800; color: var(--ink);
+  margin-top: 5px; letter-spacing: .01em;
+}
+.foot-star a {
+  color: var(--ink); font-weight: 800;
+  text-decoration: underline; text-underline-offset: 2px;
+  word-break: break-all;
+}
 .foot .disclaimer {
   font-size: 10px; font-weight: 600; color: var(--tan);
   margin-top: 3px; line-height: 1.7;
-}
-.foot .disclaimer a {
-  color: var(--ink); font-weight: 700;
-  text-decoration: underline; text-underline-offset: 2px;
-  word-break: break-all;
 }
 
 /* ── 战力测试战报卡 ── */
@@ -630,6 +636,9 @@ def card_filename(scenario_key: str) -> str:
 # 所以链接带兜底：调用方没传 project_url 也用 PROJECT_URL，
 # 保证每张卡落款里都有真链接；传入的 URL 仍过协议白名单，
 # 过不了就回落兜底链接 —— 绝不把 javascript: 放进 href。
+#
+# 链接单独占一行（`.foot-star`）而不混在免责声明里：卡片是会被截图传播的东西，
+# 10px 灰字里的 URL 在截图里等于不存在 —— 传播链路会在那儿断掉。
 
 _FOOTER_TEXT = (
     "本项目为参赛作品，非麦当劳官方产品。"
@@ -640,11 +649,12 @@ _FOOTER_TEXT = (
 def _footer_html(project_url: str = "") -> str:
     """全站统一落款：参赛声明 + 数据来源 + 可点的开源地址。"""
     url = _safe_url(project_url) or PROJECT_URL
+    short = _esc(url.replace("https://", "").rstrip("/"))
     return (
         '<div class="foot">'
         '<div class="foot-brand">麦门食验室</div>'
-        f'<div class="disclaimer">{_FOOTER_TEXT}<br>'
-        f'开源地址：<a href="{_esc(url)}">{_esc(url)}</a></div>'
+        f'<div class="foot-star">★ <a href="{_esc(url)}">{short}</a></div>'
+        f'<div class="disclaimer">{_FOOTER_TEXT}</div>'
         "</div>"
     )
 

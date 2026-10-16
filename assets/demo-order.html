@@ -162,14 +162,20 @@ body {
   padding: 11px 16px;
 }
 .foot-brand { font-size: 11.5px; font-weight: 900; }
+/* 仓库入口单独一行、墨色、加粗。原来它混在 10px 灰字里 —— 而卡片是会被截图传播的
+   东西，截图里那行小字基本等于不存在，等于传播链路在这儿断掉。 */
+.foot-star {
+  font-size: 11.5px; font-weight: 800; color: var(--ink);
+  margin-top: 5px; letter-spacing: .01em;
+}
+.foot-star a {
+  color: var(--ink); font-weight: 800;
+  text-decoration: underline; text-underline-offset: 2px;
+  word-break: break-all;
+}
 .foot .disclaimer {
   font-size: 10px; font-weight: 600; color: var(--tan);
   margin-top: 3px; line-height: 1.7;
-}
-.foot .disclaimer a {
-  color: var(--ink); font-weight: 700;
-  text-decoration: underline; text-underline-offset: 2px;
-  word-break: break-all;
 }
 
 /* ── 战力测试战报卡 ── */
@@ -460,7 +466,7 @@ body.t-retro { background: #e9dcc3; }
     </div>
   </div>
 
-  <div class="foot"><div class="foot-brand">麦门食验室</div><div class="disclaimer">本项目为参赛作品，非麦当劳官方产品。数据以麦当劳官方渠道实时结果为准。<br>开源地址：<a href="https://github.com/jknightxie/mcd-food-lab">https://github.com/jknightxie/mcd-food-lab</a></div></div>
+  <div class="foot"><div class="foot-brand">麦门食验室</div><div class="foot-star">★ <a href="https://github.com/jknightxie/mcd-food-lab">github.com/jknightxie/mcd-food-lab</a></div><div class="disclaimer">本项目为参赛作品，非麦当劳官方产品。数据以麦当劳官方渠道实时结果为准。</div></div>
 </div>
 
 <script>

@@ -292,6 +292,16 @@ header {{ text-align:center; margin-bottom:18px; }}
 .m {{ background:var(--yellow); color:var(--ink); border-radius:6px;
       width:22px; height:22px; display:grid; place-items:center;
       font-family:Georgia,serif; font-style:italic; }}
+/* 品牌条与 Star 入口同一行。Star 放在这里而不是只放在页脚 —— 卡片是 1200px 的
+   iframe，页脚在首屏以下三四个屏幕，只有顶部这个位置是每个人都会看见的。 */
+.headrow {{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }}
+.starpill {{
+  display:inline-flex; align-items:center; gap:5px; text-decoration:none;
+  background:var(--ink); color:var(--yellow); border:3px solid var(--ink);
+  border-radius:999px; padding:6px 14px; font-size:13px; font-weight:900;
+  box-shadow:3px 3px 0 var(--ink);
+}}
+.starpill:hover {{ transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink); }}
 h1 {{ font-size:21px; margin:14px 0 6px; }}
 .sub {{ font-size:12px; color:var(--tan); }}
 .sub b {{ color:var(--ink); }}
@@ -345,12 +355,24 @@ iframe {{ width:100%; border:0; display:block; }}
 .hint {{ font-size:11.5px; color:var(--tan); text-align:center; margin-top:10px; }}
 footer {{ margin-top:22px; text-align:center; font-size:11px; color:var(--tan); line-height:1.8; }}
 footer a {{ color:var(--ink); }}
+/* 玩完之后的转化位：把原来那行 11px 小字「开源地址」升级成一个真按钮。 */
+.starcta {{
+  display:inline-block; margin:0 auto 13px; text-decoration:none;
+  border:3px solid var(--ink); background:var(--yellow); color:var(--ink);
+  border-radius:12px; padding:10px 22px; font-size:14px; font-weight:900;
+  box-shadow:4px 4px 0 var(--ink);
+}}
+.starcta:hover {{ transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink); }}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="brandbar"><span class="m">M</span> 麦门食验室 · 在线演示</div>
+    <div class="headrow">
+      <div class="brandbar"><span class="m">M</span> 麦门食验室 · 在线演示</div>
+      <a class="starpill" href="https://github.com/jknightxie/mcd-food-lab"
+         target="_blank" rel="noopener">★ Star</a>
+    </div>
     <h1>免安装、免 Token，直接玩</h1>
     <p class="sub">
       {data["capturedAt"]} 在门店「{escape(data["store"]["name"].replace("麦当劳", "").replace("餐厅", ""))}」用真实 Token 跑通的
@@ -389,6 +411,8 @@ footer a {{ color:var(--ink); }}
   </section>
 
   <footer>
+    <a class="starcta" href="https://github.com/jknightxie/mcd-food-lab"
+       target="_blank" rel="noopener">★ 去 GitHub 点个 Star</a><br>
     麦门食验室 · 本项目为参赛作品，非麦当劳官方产品。数据以麦当劳官方渠道实时结果为准。<br>
     开源地址：<a href="https://github.com/jknightxie/mcd-food-lab">https://github.com/jknightxie/mcd-food-lab</a>
   </footer>
