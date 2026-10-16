@@ -52,13 +52,30 @@ __all__ = [
 #   猪柳麦满分,null,308,16,16,24,781,213
 _NUTRITION_HEADER = re.compile(r"\[(\d+)\]\{([^}]*)\}\s*:\s*(.*)", re.S)
 
-# 餐品名里的规格后缀在营养库和菜单两边写法不一致，比对时先剥掉
-_SPEC_SUFFIX = re.compile(r"[（(【\[(（].*|[（(].*$")
+# 餐品名里的规格后缀在营养库和菜单两边写法不一致，比对时先剥掉。
+#
+# 规格后缀 = 名字**末尾**一段成对括号（全/半角圆括号、方括号、书名号）。
+# 两条硬约束缺一不可：
+#
+#   1. **必须锚定在末尾。** 曾经写的是 `[（(【\[(（].*` —— 没有锚定，且 `.*`
+#      贪婪，会把「【美汁源】“多汁柠柠”」从**第一个** 【 一路吃到行尾，
+#      塌成空串；于是在 `by_core` 里与「【美汁源】“黄金橙橙”」互相覆盖，
+#      柠柠吃到了橙橙的营养值（实测 165 kcal）。品牌方括号出现在名字
+#      **开头**，它不是规格后缀，不该被剥。
+#   2. **剥完不能是空串。** 否则「（椒盐风味）」这种整个名字就是一段括号的
+#      条目也会塌成 `""`，再去 `by_core` 里和别的条目互相覆盖。剥空即说明
+#      它不满足「名字 + 后缀」结构，应当原样返回。
+_SPEC_SUFFIX = re.compile(r"(?:\s*[（(\[【][^（()）\[\]【】]*[）)\]】])+\s*$")
 
 
 def _strip_spec(name: str) -> str:
-    """去掉规格后缀，让「那么大鸡排（椒盐风味）」能匹配上「那么大鸡排」。"""
-    return _SPEC_SUFFIX.sub("", name).strip()
+    """去掉**末尾**的规格后缀，让「那么大鸡排（椒盐风味）」能匹配上「那么大鸡排」。
+
+    只剥行尾的成对括号段；剥完为空则原样返回 —— 空串会让 `by_core` 里所有
+    「整个名字就是一段括号」的条目互相覆盖，把一个单品的营养值串到另一个上。
+    """
+    stripped = _SPEC_SUFFIX.sub("", name).strip()
+    return stripped or name
 
 
 @dataclass(frozen=True)
@@ -222,15 +239,6 @@ class FuelItem:
         return _divide(self.nutrition.carbohydrate, self.price)
 
     @property
-    def energy_density(self) -> float | None:
-        """供能密度 =热量 / 价格，方向是**越高越好**。
-
-        与 `kcal_per_yuan` 相反：那个是「控制热量」用的（越低越好），
-        这个是「补充能量」用的（越高越好）。两个都要，别搞混。
-        """
-        return _divide(self.nutrition.energy_kcal, self.price)
-
-    @property
     def carb_to_protein(self) -> float | None:
         """碳水 / 蛋白质 比值 —— 官方营养库**没有糖字段**时的替代视角。
 
@@ -363,7 +371,12 @@ def build_index(
     by_name = {n.name: n for n in nutrition.values()}
     by_core: dict[str, Nutrition] = {}
     for n in nutrition.values():
-        by_core.setdefault(_strip_spec(n.name), n)
+        core = _strip_spec(n.name)
+        # 空 core 会让所有「整个名字就是一段括号」的条目挤在同一个键上，
+        # 互相覆盖、串出别人的营养值。宁可让它们匹配不上（进未覆盖清单），
+        # 也不能让它们匹配错。
+        if core:
+            by_core.setdefault(core, n)
 
     items: list[FuelItem] = []
     unmatched: list[str] = []
@@ -417,14 +430,15 @@ METRICS: tuple[Metric, ...] = (
     Metric("protein_per_yuan", "蛋白质", "g/元", True, "base"),
     Metric("kcal_per_yuan", "热量", "kcal/元", False, "base"),
     Metric("calcium_per_yuan", "钙", "mg/元", True, "base"),
-    # 供能密度：越高越好。用于「犒劳自己」—— 疲惫时需要的是能量，
-    # 不是热量越少越好。方向与 kcal_per_yuan 相反。
-    Metric("energy_density", "供能密度", "kcal/元", True, "base"),
+    # 碳水/元：越高越好，用于「犒劳自己」。疲惫时要的是**供能**，
+    # 碳水是最快的那一份；而低热量会让疲惫更明显，方向反过来就是错的。
+    Metric("carb_per_yuan", "碳水", "g/元", True, "base"),
     Metric("sodium_per_yuan", "钠", "mg/元", False, "pro"),
     Metric("fat_per_yuan", "脂肪", "g/元", False, "pro"),
     # 价格（排面）：只用于「请客」。请客的效用函数不是性价比——
     # 是拿得出手。按价格档位从高到低选排面担当，
     # 每元效率降级为参考信息（卡片上照常显示）。
+    # 另外「管住嘴」拿脂肪/元 当主指标，所以脂肪也进主表口径。
     Metric("price", "价格", "元", True, "base"),
 )
 
@@ -473,7 +487,13 @@ SCENARIOS: tuple[Scenario, ...] = (
         key="discipline",
         label="管住嘴",
         prompt="今天这顿想干什么？",
-        primary="protein_per_yuan",
+        # 「少油」是这个场景答案词表里的原话，它的量化就是「每元买到的脂肪
+        # 最少」。别再按蛋白质/元 排 —— 那和「今天在练」是**同一条排序**，
+        # 两个场景必然推出同一个冠军，问卷就退化成装饰品（铁律⑥）。
+        primary="fat_per_yuan",
+        guard="protein_per_yuan",
+        guard_min=0.5,
+        guard_unit="g/元",
     ),
     Scenario(
         key="host",
@@ -500,19 +520,25 @@ SCENARIOS: tuple[Scenario, ...] = (
         key="training",
         label="今天在练",
         prompt="今天这顿想干什么？",
+        # 蛋白质/元 是本项目的主论据，所以「练后」独占这条排序。
+        # **不设守卫**：这一项的极值本身就是答案（每元蛋白最多），
+        # 不存在需要被挡住的极端值。
+        # 曾经写死 `guard="sodium_per_yuan", guard_min=0.0` —— 钠/元 不可能为负，
+        # 那是一个永远筛不掉任何东西的空守卫，纯装饰代码。删掉。
         primary="protein_per_yuan",
-        guard="sodium_per_yuan",
-        guard_min=0.0,
-        guard_unit="mg/元",
         tier="pro",
     ),
     Scenario(
         key="comfort",
         label="犒劳自己",
         prompt="今天这顿想干什么？",
-        # 疲惫时不能推荐低热量 —— 那会让疲惫更明显。
-        # 用供能密度（越高越好）排序，同时要求有蛋白兜底。
-        primary="energy_density",
+        # 疲惫时不能按「低热量」排 —— 那会让疲惫更明显。
+        # 需要的是**碳水供能 + 蛋白续航**（本场景答案词表里早已写下的营养
+        # 依据），所以按碳水/元 排，越高越好，并要求有蛋白兜底。
+        # 曾经用 `energy_density`（= 总热量/元）：它和 `kcal_per_yuan` 是
+        # 同一个数、相反方向，而它的冠军与「今天在练」撞车（都是那么大鸡排）。
+        # 改用碳水后这个重复定义的指标已无消费者，一并删除。
+        primary="carb_per_yuan",
         guard="protein_per_yuan",
         guard_min=0.5,
         guard_unit="g/元",
@@ -570,11 +596,11 @@ def render_decision_table(
 
     **「蛋白质/元」是本工具的核心卖点，任何场景下都不能消失。**
     早期版本让最后一列跟随排序指标变化，结果「犒劳自己」场景
-    把核心列挤成了「供能密度」—— 用户看到的就是「我的卖点呢？」。
+    把核心列挤成了排序指标本身 —— 用户看到的就是「我的卖点呢？」。
 
     所以现在的规则：
     - 基础六列恒定：餐品 · 价格 · 热量 · 蛋白质 · 钙 · **蛋白质/元**
-    - 场景排序指标若不在基础列里（如供能密度），**追加到末尾**
+    - 场景排序指标若不在基础列里（如碳水/元、脂肪/元），**追加到末尾**
     - `sort_by` 只决定行的**顺序**，不决定显示哪些列
     """
     if not items:

@@ -70,12 +70,12 @@ class TestCardRender(unittest.TestCase):
     def test_signature_matches_scenario_criterion(self):
         """大字签名条必须是该场景自己的标准，不许冒充。"""
         cases = {
-            "discipline": "克蛋白质",
+            "discipline": "克脂肪",  # 少油 → 脂肪/元
             "training": "克蛋白质",
             "host": "排面担当",
             "kid": "毫克钙",
             "craving": "大卡",
-            "comfort": "大卡",
+            "comfort": "克碳水",  # 碳水供能 → 碳水/元
         }
         for key, fragment in cases.items():
             html = render_card(self.idx, key)
@@ -111,9 +111,13 @@ class TestCardRender(unittest.TestCase):
         self.assertIn("麦辣鸡翅", self.html)
 
     def test_values_come_from_index(self):
-        """数字必须与索引一致，不能是写死的示例。"""
-        self.assertIn("14.0", self.html)  # 那么大鸡排真实价格
-        self.assertIn("1.71", self.html)  # 24g / ¥14 的每元蛋白
+        """数字必须与索引一致，不能是写死的示例。
+
+        用「今天在练」渲染：它的冠军就是那么大鸡排，价格与每元蛋白都在卡上。
+        """
+        html = render_card(self.idx, "training")
+        self.assertIn("14.0", html)  # 那么大鸡排真实价格
+        self.assertIn("1.71", html)  # 24g / ¥14 的每元蛋白
 
     def test_calcium_visible_per_row(self):
         """用户实测反馈过「结论里有钙、表格里看不到钙」—— 钙必须每行可见。"""
@@ -206,7 +210,7 @@ class TestCardStyles(unittest.TestCase):
         for style in STYLES:
             html = render_card(self.idx, "discipline", style=style)
             self.assertIn(f't-{style}"', html, f"{style} 主题类缺失")
-            self.assertIn("克蛋白质", html, f"{style} 丢了签名条")
+            self.assertIn("克脂肪", html, f"{style} 丢了签名条")
             self.assertIn("g蛋白/元", html, f"{style} 丢了蛋白徽章")
             self.assertIn("款在售", html, f"{style} 丢了覆盖率")
             self.assertIn("非麦当劳官方产品", html, f"{style} 丢了页脚")

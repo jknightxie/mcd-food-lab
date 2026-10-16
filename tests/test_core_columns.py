@@ -4,7 +4,7 @@
 「不同场景，表格内容都不同了？我的卖点蛋白质/元 都没了」。
 
 根因：修复「表头与排序依据不符」那个 bug 时，让最后一列
-**跟随排序指标变化** —— 结果「犒劳自己」场景（主指标是
+**跟随排序指标变化** —— 结果「犒劳自己」场景（当时主指标是
 `energy_density` 供能密度）把核心列挤掉了。
 
 正确设计：
@@ -72,13 +72,13 @@ class TestCoreColumnsAlwaysPresent(unittest.TestCase):
             self.assertIn("蛋白质/元", table.split("\n")[0])
 
     def test_comfort_scenario_keeps_both(self):
-        """犒劳场景：既要供能密度排序，也不能丢蛋白质/元。"""
+        """犒劳场景：既要按碳水/元 排，也不能丢蛋白质/元。"""
         table = render_decision_table(
-            self.idx, recommend(self.idx, "comfort"), sort_by="energy_density"
+            self.idx, recommend(self.idx, "comfort"), sort_by="carb_per_yuan"
         )
         header = table.split("\n")[0]
         self.assertIn("蛋白质/元", header)
-        self.assertIn("供能密度", header)
+        self.assertIn("碳水", header)
 
 
 class TestSortDoesNotChangeColumns(unittest.TestCase):
@@ -100,11 +100,11 @@ class TestSortDoesNotChangeColumns(unittest.TestCase):
     def test_extra_metric_appended_not_substituted(self):
         """额外指标必须排在基础列之后。"""
         table = render_decision_table(
-            self.idx, recommend(self.idx, "comfort"), sort_by="energy_density"
+            self.idx, recommend(self.idx, "comfort"), sort_by="carb_per_yuan"
         )
         header = table.split("\n")[0]
         self.assertGreater(
-            header.index("供能密度"),
+            header.index("碳水"),
             header.index("蛋白质/元"),
             "额外指标应追加在核心列之后，而不是替换它",
         )

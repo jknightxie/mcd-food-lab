@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 620" width="1040" height="620" role="img" aria-label="每 100 款在售餐品，约 20 款能查到营养；四城七店实测覆盖率稳定在 18% 到 21%">
-  <title>覆盖率：四城七店实测 18%~21%</title>
-  <desc>每 100 款在售餐品，约 20 款能在官方营养库里查到，其余一律不推荐也不用估算值凑数。门店规模差近一倍，覆盖率却纹丝不动。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 620" width="1040" height="620" role="img" aria-label="每 100 款在售餐品，约 19 款能查到营养；四城七店实测，能匹配上的绝对款数稳定在 18 到 22 款">
+  <title>覆盖率：每 100 款在售，约 19 款能查到营养</title>
+  <desc>每 100 款在售餐品，约 19 款能在官方营养库里查到，其余一律不推荐也不用估算值凑数。门店规模差近一倍，能匹配上的绝对款数却纹丝不动。</desc>
 
   <rect width="1040" height="620" fill="#f4eee1"/>
   <rect x="26" y="26" width="988" height="568" fill="#1a1a1a"/>
@@ -33,7 +33,7 @@
     <rect x="456" y="170" width="20" height="20" fill="#ffc72c"/>
     <rect x="482" y="170" width="20" height="20" fill="#ffc72c"/>
     <rect x="508" y="170" width="20" height="20" fill="#ffc72c"/>
-    <rect x="534" y="170" width="20" height="20" fill="#ffc72c"/>
+    <rect x="534" y="170" width="20" height="20" fill="#e8e0d0"/>
 
     <rect x="40" y="196" width="20" height="20" fill="#e8e0d0"/>
     <rect x="66" y="196" width="20" height="20" fill="#e8e0d0"/>
@@ -121,51 +121,51 @@
   </g>
 
   <rect x="40" y="318" width="22" height="22" fill="#ffc72c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="72" y="335" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 20 款能查到营养 —— 参与推荐</text>
+  <text x="72" y="335" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 19 款能查到营养 —— 参与推荐</text>
 
   <rect x="40" y="350" width="22" height="22" fill="#e8e0d0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="72" y="367" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 80 款查不到 —— 不推荐，也不用估算值凑数</text>
+  <text x="72" y="367" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#1a1a1a">约 81 款查不到 —— 不推荐，也不用估算值凑数</text>
 
   <!-- 右：七家门店条 -->
-  <text x="596" y="152" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">覆盖率：18% ~ 21%</text>
+  <text x="596" y="152" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">匹配款数：18 ~ 22 款（条长 = 匹配款数）</text>
 
-  <text x="592" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">北京 建外SOHO</text>
+  <text x="592" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">北京 建外SOHO<tspan font-size="11.5" fill="#6f6552"> · 在售 104</tspan></text>
   <rect x="740" y="177" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <rect x="740" y="177" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+  <rect x="740" y="177" width="160" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="191" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">20 款</text>
 
-  <text x="592" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 吴江路</text>
+  <text x="592" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 吴江路<tspan font-size="11.5" fill="#6f6552"> · 在售 73</tspan></text>
   <rect x="740" y="217" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <rect x="740" y="217" width="168" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">21%</text>
+  <rect x="740" y="217" width="120" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="231" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">15 款</text>
 
-  <text x="592" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 静安锦沧文华</text>
+  <text x="592" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">上海 静安锦沧文华<tspan font-size="11.5" fill="#6f6552"> · 在售 100</tspan></text>
   <rect x="740" y="257" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
   <rect x="740" y="257" width="160" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">20%</text>
+  <text x="948" y="271" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">20 款</text>
 
-  <text x="592" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 天源路</text>
+  <text x="592" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 天源路<tspan font-size="11.5" fill="#6f6552"> · 在售 116</tspan></text>
   <rect x="740" y="297" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <rect x="740" y="297" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+  <rect x="740" y="297" width="176" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="311" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">22 款</text>
 
-  <text x="592" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 长兴路</text>
+  <text x="592" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">广州 长兴路<tspan font-size="11.5" fill="#6f6552"> · 在售 119</tspan></text>
   <rect x="740" y="337" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <rect x="740" y="337" width="144" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">18%</text>
+  <rect x="740" y="337" width="176" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="351" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">22 款</text>
 
-  <text x="592" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 福田高铁站</text>
+  <text x="592" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 福田高铁站<tspan font-size="11.5" fill="#6f6552"> · 在售 103</tspan></text>
   <rect x="740" y="377" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
   <rect x="740" y="377" width="144" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">18%</text>
+  <text x="948" y="391" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">18 款</text>
 
-  <text x="592" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 领展中心城</text>
+  <text x="592" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="13.5" fill="#1a1a1a">深圳 领展中心城<tspan font-size="11.5" fill="#6f6552"> · 在售 103</tspan></text>
   <rect x="740" y="417" width="200" height="18" fill="#f0ebe0" stroke="#1a1a1a" stroke-width="1.5"/>
-  <rect x="740" y="417" width="152" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
-  <text x="948" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">19%</text>
+  <rect x="740" y="417" width="160" height="18" fill="#da291c" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="948" y="431" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#da291c">20 款</text>
 
   <!-- 页脚 -->
   <line x1="40" y1="470" x2="980" y2="470" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="7 6"/>
-  <text x="40" y="510" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">覆盖率是结构性缺口，不是某家店数据不全。</text>
-  <text x="40" y="542" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="16" fill="#6f6552">门店规模差了近一倍（73 款 vs 119 款），覆盖率却纹丝不动。没查到的那些里，恰好包含几乎全部甜品。</text>
+  <text x="40" y="510" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">匹配款数是结构性缺口，不是某家店数据不全。</text>
+  <text x="40" y="542" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="16" fill="#6f6552">门店规模差了近一倍（73 款 vs 119 款），能匹配上的都是 18~22 款这个量级。没查到的那些里，恰好包含几乎全部甜品。</text>
 </svg>

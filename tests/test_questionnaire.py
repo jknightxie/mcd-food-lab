@@ -72,12 +72,17 @@ class TestResolveAnswer(unittest.TestCase):
         metric = next(m for m in METRICS if m.key == s.primary)
         self.assertTrue(metric.higher_is_better, "犒劳场景不应偏好低热量")
 
-    def test_two_kcal_metrics_opposite(self):
-        """kcal_per_yuan 与 energy_density 是同一份数据、相反方向。"""
-        low = next(m for m in METRICS if m.key == "kcal_per_yuan")
-        high = next(m for m in METRICS if m.key == "energy_density")
-        self.assertFalse(low.higher_is_better)
-        self.assertTrue(high.higher_is_better)
+    def test_discipline_direction_is_negative(self):
+        """「少油」= 脂肪/元 越低越好。
+
+        2026-10-16：主指标由蛋白质/元（越大越好）改为脂肪/元（越小越好）。
+        原写法与「今天在练」是**同一条排序**，两个场景必然推同一个冠军，
+        问卷退化成装饰品（SKILL.md 铁律⑥）。
+        """
+        s = next(s for s in SCENARIOS if s.key == "discipline")
+        self.assertEqual(s.primary, "fat_per_yuan")
+        metric = next(m for m in METRICS if m.key == s.primary)
+        self.assertFalse(metric.higher_is_better, "管住嘴不该偏好高脂肪")
 
     def test_comfort_still_requires_protein(self):
         """犒劳也要有蛋白 —— 否则全是零蛋白饮料。"""

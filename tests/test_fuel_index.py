@@ -20,6 +20,7 @@ from fuel_index import (  # noqa: E402
     SCENARIOS,
     FuelIndex,
     Nutrition,
+    _strip_spec,
     build_index,
     parse_menu,
     parse_nutrition,
@@ -27,6 +28,17 @@ from fuel_index import (  # noqa: E402
     render_decision_table,
     render_report,
 )
+
+# 演示页用的那份真实门店快照 —— 冻结在仓库里，零网络可复现
+SNAPSHOT = Path(__file__).resolve().parent.parent / "assets" / "snapshot.json"
+
+
+def load_snapshot_index() -> FuelIndex:
+    """加载 `assets/snapshot.json` 构建索引。"""
+    import json
+
+    raw = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+    return build_index(raw["menu"], raw["nutrition"])
 
 # ── 真实营养库样本（从 tools/list 实测响应截取，格式逐字保留）──────────
 
@@ -425,9 +437,29 @@ class TestScenarios(unittest.TestCase):
                 item.protein_per_yuan, 0.8, f"{item.name} 蛋白过低不该请客"
             )
 
-    def test_discipline_prefers_high_protein(self):
-        top = recommend(self.idx, "discipline", top=1)
-        self.assertEqual(top[0].name, "那么大鸡排（椒盐风味）")
+    def test_discipline_prefers_low_fat(self):
+        """「管住嘴」= 少油，所以按脂肪/元 升序 —— 冠军是候选里脂肪效率最低的。
+
+        2026-10-16：主指标由蛋白质/元 改为脂肪/元。原来它和「今天在练」
+        是同一条排序，两个场景必然推同一个冠军（那么大鸡排），
+        问卷退化成装饰品 —— 直接违反 SKILL.md 铁律⑥。
+        """
+        s = next(s for s in SCENARIOS if s.key == "discipline")
+        self.assertEqual(s.primary, "fat_per_yuan")
+        top = recommend(self.idx, "discipline")
+        pool = [
+            i
+            for i in self.idx.items
+            if i.fat_per_yuan is not None
+            and (i.protein_per_yuan or 0) >= (s.guard_min or 0)
+        ]
+        self.assertAlmostEqual(
+            top[0].fat_per_yuan, min(i.fat_per_yuan for i in pool), places=6
+        )
+        # 与「今天在练」必须分开 —— 这是本测试真正的目的
+        self.assertNotEqual(
+            top[0].name, recommend(self.idx, "training", top=1)[0].name
+        )
 
     def test_training_is_pro_tier(self):
         s = next(s for s in SCENARIOS if s.key == "training")
@@ -482,6 +514,153 @@ class TestRendering(unittest.TestCase):
     def test_empty_index_renders_without_crash(self):
         empty = FuelIndex(items=(), menu_total=0, matched=0)
         self.assertIn("0 款在售餐品", render_report(empty, "discipline"))
+
+
+# ── 规格后缀剥离（回归：跨单品营养污染）──────────────────────────────────
+
+
+class TestStripSpec(unittest.TestCase):
+    """`_strip_spec` 只准剥**末尾**的成对括号段。
+
+    2026-10-16 修复：旧正则 `[（(【\\[(（].*` 既没有锚定、`.*` 又贪婪，
+    会把以方括号开头的名字从**第一个** 【 一路吃到行尾 ——
+    「【美汁源】“多汁柠柠”」塌成空串，于是在 `by_core` 里与
+    「【美汁源】“黄金橙橙”」互相覆盖，柠柠吃到了橙橙的 165 kcal。
+    """
+
+    def test_strips_trailing_spec(self):
+        self.assertEqual(_strip_spec("那么大鸡排（椒盐风味）"), "那么大鸡排")
+
+    def test_normalizes_halfwidth_brackets(self):
+        # 菜单写半角、营养库写全角，剥掉后缀后两边必须对得上
+        self.assertEqual(_strip_spec("纯牛奶(盒装)"), "纯牛奶")
+        self.assertEqual(_strip_spec("纯牛奶（盒装）"), "纯牛奶")
+
+    def test_keeps_leading_brand_bracket(self):
+        """品牌方括号在名字**开头**，它不是规格后缀 —— 必须原样保留。"""
+        name = "【美汁源】“多汁柠柠”"
+        self.assertEqual(_strip_spec(name), name)
+
+    def test_two_brand_flavors_keep_distinct_cores(self):
+        """边界：同品牌不同口味的两款饮品不能塌成同一个 core。"""
+        orange = _strip_spec("【美汁源】“黄金橙橙”")
+        lemon = _strip_spec("【美汁源】“多汁柠柠”")
+        self.assertNotEqual(orange, lemon)
+        self.assertTrue(orange and lemon, "core 不能是空串")
+
+    def test_bracket_only_name_returned_as_is(self):
+        """整个名字就是一段括号时原样返回 —— 空 core 会去撞上别人。"""
+        self.assertEqual(_strip_spec("（椒盐风味）"), "（椒盐风味）")
+
+    def test_no_empty_core_for_any_real_name(self):
+        for name in parse_nutrition(REAL_NUTRITION):
+            self.assertTrue(_strip_spec(name), f"「{name}」的 core 是空串")
+
+
+class TestNoCrossItemPollution(unittest.TestCase):
+    """回归：一个单品不得拿到另一个单品的营养值（真实快照）。"""
+
+    def setUp(self):
+        self.idx = load_snapshot_index()
+        self.by_name = {i.name: i for i in self.idx.items}
+
+    def test_every_match_is_same_origin(self):
+        """任何被匹配上的餐品，其营养记录名必须与原菜单名同源。"""
+        for item in self.idx.items:
+            self.assertEqual(
+                _strip_spec(item.nutrition.name),
+                _strip_spec(item.name),
+                f"「{item.name}」匹配到了「{item.nutrition.name}」的营养值",
+            )
+
+    def test_orange_keeps_its_own_nutrition(self):
+        self.assertIn("【美汁源】“黄金橙橙”", self.by_name)
+        self.assertEqual(
+            self.by_name["【美汁源】“黄金橙橙”"].nutrition.name,
+            "【美汁源】“黄金橙橙”",
+        )
+
+    def test_lemon_not_matched_to_orange(self):
+        """柠柠在营养库里没有记录，就必须落进未覆盖清单 —— 不能借橙橙的。"""
+        self.assertNotIn(
+            "【美汁源】“多汁柠柠”",
+            self.by_name,
+            "「多汁柠柠」不该被匹配上：它吃到了别的单品的营养值",
+        )
+        self.assertIn("【美汁源】“多汁柠柠”", self.idx.unmatched_names)
+
+    def test_coverage_is_what_it_says(self):
+        """快照冻结在这里，匹配数就必须是一个确定的真值。
+
+        修复前虚高 1 款（20/100 = 20%），修复后 19/100 = 19%。
+        宁可数字变小，也不能拿一个借来的营养值充数。
+        """
+        self.assertEqual(self.idx.menu_total, 100)
+        self.assertEqual(self.idx.matched, len(self.idx.items))
+        self.assertEqual(self.idx.matched, 19)
+        self.assertAlmostEqual(self.idx.coverage, 19.0, places=1)
+
+
+# ── 场景排序必须互不相同（SKILL.md 铁律⑥）──────────────────────────────
+
+
+class TestScenarioChampionsAreDistinct(unittest.TestCase):
+    """铁律⑥：每个场景必须有各自的冠军。
+
+    README 把「六个场景冠军各不相同」当卖点写在首页，而实测只有 4/6 ——
+    「管住嘴」「今天在练」「犒劳自己」三个场景都推那么大鸡排。
+    **这条铁律此前没有任何测试挡住**，所以它在纸面上成立、在数据上是假的。
+    """
+
+    def setUp(self):
+        self.idx = load_snapshot_index()
+
+    def test_six_distinct_champions(self):
+        champs = {}
+        for s in SCENARIOS:
+            top = recommend(self.idx, s.key, top=1)
+            self.assertTrue(top, f"「{s.label}」一个都推不出来")
+            champs[s.label] = top[0].name
+        names = list(champs.values())
+        dup = {n for n in names if names.count(n) > 1}
+        self.assertEqual(
+            len(set(names)),
+            len(SCENARIOS),
+            f"冠军重复：{dup}（各场景冠军：{champs}）",
+        )
+
+    def test_primaries_are_distinct(self):
+        """两个场景共用主指标，必然推出同一个冠军 —— 从配置层就掐掉。"""
+        primaries = [s.primary for s in SCENARIOS]
+        self.assertEqual(
+            len(set(primaries)), len(primaries), f"主指标重复：{primaries}"
+        )
+
+    def test_every_guard_actually_rejects_something(self):
+        """守卫必须真的在筛，不能是空转。
+
+        「今天在练」曾写死 `sodium_per_yuan >= 0.0` —— 钠/元 不可能为负，
+        那个守卫永远筛不掉任何东西，是纯装饰代码。
+        """
+        for s in SCENARIOS:
+            if not s.guard or s.guard_min is None:
+                continue
+            guard = next(m for m in METRICS if m.key == s.guard)
+            self.assertTrue(
+                guard.higher_is_better,
+                f"「{s.label}」的门槛写的是下限，守卫指标就得是越大越好",
+            )
+            kept = [
+                i
+                for i in self.idx.items
+                if i.metric(s.guard) is not None
+                and i.metric(s.guard) >= s.guard_min
+            ]
+            self.assertLess(
+                len(kept),
+                len(self.idx.items),
+                f"「{s.label}」的守卫永远筛不掉任何东西（空转）",
+            )
 
 
 if __name__ == "__main__":

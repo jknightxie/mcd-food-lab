@@ -27,7 +27,7 @@
     <text x="379" y="150" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「今天想控制一下」</text>
     <text x="379" y="186" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">管住嘴</text>
     <rect x="375" y="208" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
-    <text x="510" y="236" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">蛋白质/元 ↑</text>
+    <text x="510" y="236" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">脂肪/元 ↓ + 蛋白守卫</text>
   </g>
 
   <!-- 场景三：请客 -->
@@ -54,7 +54,7 @@
     <text x="379" y="316" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「刚练完 / 增肌期」</text>
     <text x="379" y="352" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">今天在练</text>
     <rect x="375" y="374" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
-    <text x="510" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">蛋白质/元 ↑ + 钠·脂肪</text>
+    <text x="510" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">蛋白质/元 ↑ · 另列钠·脂肪</text>
   </g>
 
   <!-- 场景六：犒劳自己 -->
@@ -62,12 +62,12 @@
     <rect x="678" y="286" width="302" height="150" fill="#faf6ea" stroke="#1a1a1a" stroke-width="2.5"/>
     <text x="698" y="316" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="15" fill="#6f6552">「累死了 / 心情不好」</text>
     <text x="698" y="352" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="26" font-weight="700" fill="#1a1a1a">犒劳自己</text>
-    <rect x="694" y="374" width="270" height="44" fill="#da291c" stroke="#1a1a1a" stroke-width="2"/>
-    <text x="829" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#ffffff">供能密度 ↑</text>
+    <rect x="694" y="374" width="270" height="44" fill="#ffc72c" stroke="#1a1a1a" stroke-width="2"/>
+    <text x="829" y="402" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" font-weight="700" fill="#1a1a1a">碳水/元 ↑ + 蛋白守卫</text>
   </g>
 
   <!-- 页脚 -->
   <line x1="40" y1="470" x2="980" y2="470" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="7 6"/>
-  <text x="40" y="512" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="21" font-weight="700" fill="#1a1a1a">六个场景冠军各不相同。</text>
-  <text x="40" y="544" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" fill="#6f6552">如果六个场景推同一款，这一问就是装饰品 —— 红色两档刻意不按每元效率排，因为那时它不是你的目标。</text>
+  <text x="40" y="512" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="21" font-weight="700" fill="#1a1a1a">六个场景冠军各不相同 —— 这一条由测试锁着。</text>
+  <text x="40" y="544" font-family="PingFang SC, Microsoft YaHei, Segoe UI, sans-serif" font-size="17" fill="#6f6552">如果六个场景推同一款，这一问就是装饰品 —— 红色那档刻意不按每元效率排，因为请客时它不是你的目标。</text>
 </svg>
